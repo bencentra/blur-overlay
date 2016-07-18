@@ -12,7 +12,7 @@
         margin: 0;
       }
       #content {
-        padding: 0;
+        padding: 1px;
         margin: 0;
         font-family: sans-serif;
         width: 100%;
@@ -48,10 +48,12 @@
     <script src="index.js"></script>
     <script>
       $(document).on('ready', function() {
+
+        var $content, $overlay, $hideButton;
+
         /*
         * Content is defined before init
         */
-        var $content, $overlay, $hideButton;
         $overlay = $('<div>').attr('id', 'overlay');
         $overlay.append($('<h1>').text('This is the overlay!'));
         $overlay.append($('<p>').text('The background is so blurry, it\'s great!'));
@@ -71,12 +73,12 @@
         /*
         * Content is defined after init
         */
-        // var $content = $('#content').blurOverlay();
+        // $content = $('#content').blurOverlay();
         // $('#showOverlayButton').on('click', function() {
-        //   var $overlay = $('<div>').attr('id', 'overlay');
+        //   $overlay = $('<div>').attr('id', 'overlay');
         //   $overlay.append($('<h1>').text('This is the overlay!'));
         //   $overlay.append($('<p>').text('The background is so blurry, it\'s great!'));
-        //   var $hideButton= $('<button>').attr('id', 'hideOverlayButton').text('Hide Overlay');
+        //   $hideButton= $('<button>').attr('id', 'hideOverlayButton').text('Hide Overlay');
         //   $overlay.append($hideButton);
         //   $content.blurOverlay('content', $overlay);
         //   $content.blurOverlay('show');
@@ -100,6 +102,7 @@
         $content.on('blurOverlay.hide', function() {
           console.log('hide');
         });
+
       });
     </script>
   </body>

@@ -7,7 +7,6 @@ $(function() {
     // Defaults
     options: {
       autoShow: false, // Set to true to show the overlay on init
-      prefix: 'blur-overlay', // Prefix for wrapper selectors
       content: '<h1>Hello, blur overlay!</h1>', // Default content to display
       blurAmount: '12px' // Amount of pixels to blur by
     },
@@ -15,17 +14,13 @@ $(function() {
     // "Constructor"
     _create: function() {
       // Initialize elements
-      this.$wrapper = $('<div>').attr('id', this.options.prefix + '-wrapper');
+      this.$wrapper = $('<div>').attr('class', 'blur-overlay-wrapper');
       this.$wrapper.css({
-        'position': 'absolute',
-        'top': 0,
-        'bottom': 0,
-        'left': 0,
-        'right': 0,
-        '-webkit-filter': 'blur(' + this.options.blurAmount + ')',
-        'filter': 'blur(' + this.options.blurAmount + ')'
+        '-webkit-filter': 'blur(0px)',
+        'filter': 'blur(0px)',
+        'transition': '-webkit-filter 600ms linear, filter 600ms linear'
       });
-      this.$overlay = $('<div>').attr('id', this.options.prefix + '-overlay');
+      this.$overlay = $('<div>').attr('class', 'blur-overlay-overlay');
       this.$overlay.css({
         'position': 'absolute',
         'top': 0,
@@ -34,9 +29,12 @@ $(function() {
         'right': 0,
         'z-index': 1000
       });
-      this.$content = $('<div>').attr('id', this.options.prefix + '-content');
+      this.$content = $('<div>').attr('class', 'blur-overlay-content');
       this.$content.append(this.options.content);
       this.$overlay.append(this.$content);
+      // Wrap the target element
+      this.element.wrapAll(this.$wrapper);
+      this.$wrapper = this.element.closest('.blur-overlay-wrapper').first();
       // Optionally show the overlay
       if (this.options.autoShow) {
         this.show();
@@ -50,8 +48,11 @@ $(function() {
         this.element.trigger($.Event('blurOverlay.beforeShow'));
         // Disable scrolling
         $('body').css('overflow', 'hidden');
-        // Wrap the target element
-        this.element.wrapAll(this.$wrapper);
+        // Blur the background content
+        this.$wrapper.css({
+          '-webkit-filter': 'blur(' + this.options.blurAmount + ')',
+          'filter': 'blur(' + this.options.blurAmount + ')'
+        });
         // Create the overlay
         $('body').prepend(this.$overlay);
         // Trigger show event
@@ -67,8 +68,11 @@ $(function() {
         this.element.trigger($.Event('blurOverlay.beforeHide'));
         // Enable scrolling
         $('body').css('overflow', 'auto');
-        // Unwrap the target element
-        this.element.unwrap();
+        // Unblur the background content
+        this.$wrapper.css({
+          '-webkit-filter': 'blur(0px)',
+          'filter': 'blur(0px)'
+        });
         // Destroy the overlay
         this.$overlay = this.$overlay.detach();
         // Trigger hide event
