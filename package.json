@@ -3,8 +3,12 @@
   "version": "1.0.0",
   "description": "A jQuery plugin for displaying an overlay on a webpage that blurs the content behind it ",
   "main": "index.js",
+  "engines": {
+    "node": ">=6.0.0"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "demo": "hs -o -p 8000 .",
+    "lint": "eslint -c .eslintrc.json ./index.js --fix"
   },
   "repository": {
     "type": "git",
@@ -22,9 +26,9 @@
   },
   "homepage": "https://github.com/bencentra/blur-overlay#readme",
   "devDependencies": {
+    "eslint": "^3.1.1",
+    "eslint-config-airbnb-base": "^4.0.2",
+    "eslint-plugin-import": "^1.11.0",
     "http-server": "^0.9.0"
-  },
-  "scripts": {
-    "demo": "hs -p 8000 ."
   }
 }

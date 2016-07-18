@@ -1,0 +1,10 @@
+{
+  "extends": "airbnb-base/legacy",
+  "env": {
+    "jquery": true
+  },
+  "rules": {
+    "func-names": "off",
+    "new-cap": "off"
+  }
+}
