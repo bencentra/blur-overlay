@@ -25,6 +25,9 @@
       img {
         box-shadow: 3px 3px 6px #333;
       }
+      #overlay {
+        text-align: center;
+      }
     </style>
   </head>
   <body>
@@ -45,18 +48,57 @@
     <script src="index.js"></script>
     <script>
       $(document).on('ready', function() {
-        var $content = $('#content').blurOverlay();
+        /*
+        * Content is defined before init
+        */
+        var $content, $overlay, $hideButton;
+        $overlay = $('<div>').attr('id', 'overlay');
+        $overlay.append($('<h1>').text('This is the overlay!'));
+        $overlay.append($('<p>').text('The background is so blurry, it\'s great!'));
+        $hideButton = $('<button>').attr('id', 'hideOverlayButton').text('Hide Overlay');
+        $hideButton.on('click', function() {
+          $content.blurOverlay('hide');
+        });
+        $overlay.append($hideButton);
+        $content = $('#content');
+        $content.blurOverlay({
+          content: $overlay
+        });
         $('#showOverlayButton').on('click', function() {
-          var $overlay = $('<div>').attr('id', 'overlay');
-          $overlay.append($('<h1>').text('This is the overlay!'));
-          $overlay.append($('<p>').text('The background is so blurry, it\'s great!'));
-          var $hideButton= $('<button>').attr('id', 'hideOverlayButton').text('Hide Overlay');
-          $overlay.append($hideButton);
-          $content.blurOverlay('content', $overlay);
           $content.blurOverlay('show');
-          $hideButton.on('click', function() {
-            $content.blurOverlay('hide');
-          });
+        });
+
+        /*
+        * Content is defined after init
+        */
+        // var $content = $('#content').blurOverlay();
+        // $('#showOverlayButton').on('click', function() {
+        //   var $overlay = $('<div>').attr('id', 'overlay');
+        //   $overlay.append($('<h1>').text('This is the overlay!'));
+        //   $overlay.append($('<p>').text('The background is so blurry, it\'s great!'));
+        //   var $hideButton= $('<button>').attr('id', 'hideOverlayButton').text('Hide Overlay');
+        //   $overlay.append($hideButton);
+        //   $content.blurOverlay('content', $overlay);
+        //   $content.blurOverlay('show');
+        //   $hideButton.on('click', function() {
+        //     $content.blurOverlay('hide');
+        //   });
+        // });
+
+        /*
+        * Event listeners
+        */
+        $content.on('blurOverlay.beforeShow', function() {
+          console.log('beforeShow');
+        });
+        $content.on('blurOverlay.show', function() {
+          console.log('show');
+        });
+        $content.on('blurOverlay.beforeHide', function() {
+          console.log('beforeHide');
+        });
+        $content.on('blurOverlay.hide', function() {
+          console.log('hide');
         });
       });
     </script>

@@ -1,14 +1,18 @@
 $(function() {
 
+  var showing = false;
+
   $.widget('custom.blurOverlay', {
 
     // Defaults
     options: {
+      autoShow: false, // Set to true to show the overlay on init
       prefix: 'blur-overlay', // Prefix for wrapper selectors
       content: '<h1>Hello, blur overlay!</h1>', // Default content to display
       blurAmount: '12px' // Amount of pixels to blur by
     },
 
+    // "Constructor"
     _create: function() {
       // Initialize elements
       this.$wrapper = $('<div>').attr('id', this.options.prefix + '-wrapper');
@@ -31,26 +35,53 @@ $(function() {
         'z-index': 1000
       });
       this.$content = $('<div>').attr('id', this.options.prefix + '-content');
+      this.$content.append(this.options.content);
       this.$overlay.append(this.$content);
+      // Optionally show the overlay
+      if (this.options.autoShow) {
+        this.show();
+      }
     },
 
+    // Show the overlay
     show: function() {
-      // Wrap the target element
-      $('body').css('overflow', 'hidden');
-      this.element.wrapAll(this.$wrapper);
-      // Create the overlay
-      this.$content.html(this.options.content);
-      $('body').prepend(this.$overlay);
+      if (!showing) {
+        // Trigger beforeShow event
+        this.element.trigger($.Event('blurOverlay.beforeShow'));
+        // Disable scrolling
+        $('body').css('overflow', 'hidden');
+        // Wrap the target element
+        this.element.wrapAll(this.$wrapper);
+        // Create the overlay
+        $('body').prepend(this.$overlay);
+        // Trigger show event
+        showing = true;
+        this.element.trigger($.Event('blurOverlay.show'));
+      }
     },
 
+    // Hide the overlay
     hide: function() {
-      $('body').css('overflow', 'auto');
-      this.element.unwrap();
-      this.$overlay.remove();
+      if (showing) {
+        // Trigger beforeHide event
+        this.element.trigger($.Event('blurOverlay.beforeHide'));
+        // Enable scrolling
+        $('body').css('overflow', 'auto');
+        // Unwrap the target element
+        this.element.unwrap();
+        // Destroy the overlay
+        this.$overlay = this.$overlay.detach();
+        // Trigger hide event
+        showing = false
+        this.element.trigger($.Event('blurOverlay.hide'));
+      }
     },
 
-    content: function(stringOrElement) {
-      this.options.content = stringOrElement;
+    // Update the contents of the overlay
+    content: function(newContent) {
+      var isFunction = typeof newContent === 'function';
+      this.options.content = isFunction ? newContent() : newContent;
+      this.$content.html(this.options.content);
     }
 
   });
