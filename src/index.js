@@ -67,6 +67,16 @@
     },
 
     /*
+    * Destroy the plugin instance and clean up the DOM
+    */
+    destroy: function () {
+      this.element.unwrap();
+      this.$overlay.remove();
+      this.element.data('custom-blurOverlay', null);
+      $('body').css('overflow', 'auto');
+    },
+
+    /*
     * Private methods
     */
 

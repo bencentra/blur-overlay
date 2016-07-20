@@ -9,7 +9,8 @@
   "scripts": {
     "demo": "hs -o -p 8000 .",
     "lint": "eslint -c .eslintrc.json src/ spec/ --fix",
-    "test": "karma start karma.conf.js --single-run"
+    "test": "karma start karma.conf.js --single-run",
+    "test-serve": "karma start karma.conf.js"
   },
   "repository": {
     "type": "git",

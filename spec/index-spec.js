@@ -30,6 +30,10 @@
         data = null;
       });
 
+      afterEach(function () {
+        $target.blurOverlay('destroy');
+      });
+
       it('initializes the plugin with defaults', function () {
         $target.blurOverlay();
         data = $target.data('custom-blurOverlay');
@@ -69,15 +73,41 @@
       });
     });
 
-    describe('show()', function () {
+    describe('public methods', function () {
 
-    });
+      beforeEach(function() {
+        $target.blurOverlay({
+          content: $overlay
+        });
+      });
 
-    describe('hide()', function () {
+      afterEach(function() {
+        $target.blurOverlay('destroy');
+      });
 
-    });
+      describe('show()', function () {
 
-    describe('content()', function () {
+        it('displays the overlay', function () {
+
+        });
+
+      });
+
+      describe('hide()', function () {
+
+      });
+
+      describe('content()', function () {
+
+      });
+
+      describe('isShowing()', function () {
+
+      });
+
+      describe('destroy()', function () {
+
+      });
 
     });
 
