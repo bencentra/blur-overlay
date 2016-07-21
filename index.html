@@ -58,16 +58,20 @@
         $overlay.append($('<h1>').text('This is the overlay!'));
         $overlay.append($('<p>').text('The background is so blurry, it\'s great!'));
         $hideButton = $('<button>').attr('id', 'hideOverlayButton').text('Hide Overlay');
-        $hideButton.on('click', function() {
-          $content.blurOverlay('hide');
+        $hideButton.on('click', function () {
+          $content.blurOverlay('hide').then(function () {
+            console.log('hide deferred resolved!');
+          });;
         });
         $overlay.append($hideButton);
         $content = $('#content');
         $content.blurOverlay({
           content: $overlay
         });
-        $('#showOverlayButton').on('click', function() {
-          $content.blurOverlay('show');
+        $('#showOverlayButton').on('click', function () {
+          $content.blurOverlay('show').then(function () {
+            console.log('show deferred resolved!');
+          });
         });
 
         /*
@@ -91,16 +95,16 @@
         * Event listeners
         */
         $content.on('blurOverlay.beforeShow', function() {
-          console.log('beforeShow');
+          console.log('beforeShow event');
         });
         $content.on('blurOverlay.show', function() {
-          console.log('show');
+          console.log('show event');
         });
         $content.on('blurOverlay.beforeHide', function() {
-          console.log('beforeHide');
+          console.log('beforeHide event');
         });
         $content.on('blurOverlay.hide', function() {
-          console.log('hide');
+          console.log('hide event');
         });
 
       });

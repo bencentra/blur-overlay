@@ -1,7 +1,9 @@
 (function ($) {
   'use strict';
 
-  var showing = false;
+  var showing;
+  var showDeferred;
+  var hideDeferred;
 
   $.widget('custom.blurOverlay', {
 
@@ -21,6 +23,9 @@
     * The "constructor"
     */
     _create: function () {
+      showing = false;
+      showDeferred = null;
+      hideDeferred = null;
       this._initWrapper();
       this._initContent();
       this._initOverlay();
@@ -34,20 +39,24 @@
     * Show the overlay
     */
     show: function () {
+      showDeferred = $.Deferred();
       if (!showing) {
         this._beforeShow();
       }
       showing = true;
+      return showDeferred.promise();
     },
 
     /*
     * Hide the overlay
     */
     hide: function () {
+      hideDeferred = $.Deferred();
       if (showing) {
         this._beforeHide();
       }
       showing = false;
+      return hideDeferred.promise();
     },
 
     /*
@@ -69,12 +78,12 @@
     /*
     * Destroy the plugin instance and clean up the DOM
     */
-    destroy: function () {
-      this.element.unwrap();
-      this.$overlay.remove();
-      this.element.data('custom-blurOverlay', null);
-      $('body').css('overflow', 'auto');
-    },
+    // destroy: function () {
+    //   this.element.unwrap();
+    //   this.$overlay.remove();
+    //   this.element.data('custom-blurOverlay', null);
+    //   $('body').css('overflow', 'auto');
+    // },
 
     /*
     * Private methods
@@ -85,7 +94,8 @@
       this.$wrapper.css({
         '-webkit-filter': 'blur(0px)',
         filter: 'blur(0px)',
-        transition: '-webkit-filter 600ms linear, filter 600ms linear'
+        '-webkit-transition': '-webkit-filter 600ms linear, filter 300ms linear',
+        transition: '-webkit-filter 600ms linear, filter 300ms linear'
       });
       this.element.wrapAll(this.$wrapper);
       this.$wrapper = this.element.closest('.blur-overlay-wrapper').first();
@@ -102,7 +112,8 @@
       this.$overlay.css({
         'z-index': 1000,
         opacity: 0,
-        transition: 'opacity 600ms linear'
+        '-webkit-transition': 'opacity 300ms linear',
+        transition: 'opacity 300ms linear'
       });
       this.$overlay.append(this.$content);
       this.$overlay.appendTo('body');
@@ -138,6 +149,7 @@
 
     _afterShow: function () {
       this.element.trigger($.Event('blurOverlay.show'));
+      showDeferred.resolve(true);
     },
 
     _beforeHide: function () {
@@ -156,6 +168,7 @@
       this.$overlay.css('position', 'relative');
       this.$content.hide();
       this.element.trigger($.Event('blurOverlay.hide'));
+      hideDeferred.resolve(true);
     }
 
   });
