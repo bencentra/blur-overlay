@@ -46,8 +46,6 @@
           autoShow: false,
           blurAmount: '12px'
         }));
-        expect($('.blur-overlay-overlay').css('opacity')).toBe('0');
-        expect($('.blur-overlay-wrapper').css('-webkit-filter')).toBe('blur(0px)');
       });
 
       it('initializes the plugin with custom content', function () {
@@ -56,8 +54,6 @@
         });
         data = $target.data('custom-blurOverlay');
         expect(data.options.content).toEqual($overlay);
-        expect($('.blur-overlay-overlay').css('opacity')).toBe('0');
-        expect($('.blur-overlay-wrapper').css('-webkit-filter')).toBe('blur(0px)');
       });
 
       it('initializes the plugin with custom blur amount', function () {
@@ -67,8 +63,6 @@
         });
         data = $target.data('custom-blurOverlay');
         expect(data.options.blurAmount).toEqual(newBlur);
-        expect($('.blur-overlay-overlay').css('opacity')).toBe('0');
-        expect($('.blur-overlay-wrapper').css('-webkit-filter')).toBe('blur(0px)');
       });
 
       it('initializes the plugin and shows the overlay', function () {
@@ -77,8 +71,6 @@
         });
         data = $target.data('custom-blurOverlay');
         expect(data.options.autoShow).toEqual(true);
-        expect($('.blur-overlay-overlay').css('opacity')).toBe('1');
-        expect($('.blur-overlay-wrapper').css('-webkit-filter')).toBe('blur(12px)');
       });
     });
 
@@ -88,7 +80,6 @@
           $target.blurOverlay({
             content: $overlay
           });
-          expect($('.blur-overlay-overlay').css('opacity')).toBe('0');
           $target.blurOverlay('show').then(function () {
             expect($('.blur-overlay-overlay').css('opacity')).toBe('1');
             done();
@@ -102,7 +93,6 @@
             content: $overlay,
             autoShow: true
           });
-          expect($('.blur-overlay-overlay').css('opacity')).toBe('1');
           $target.blurOverlay('hide').then(function () {
             expect($('.blur-overlay-overlay').css('opacity')).toBe('0');
             done();
@@ -162,7 +152,56 @@
     });
 
     describe('events', function () {
+      var callOrder;
+      var beforeEventSpy;
+      var eventSpy;
 
+      beforeEach(function () {
+        callOrder = [];
+      });
+
+      it('beforeShow and show fired on show()', function (done) {
+        beforeEventSpy = jasmine.createSpy('beforeShow').and.callFake(function () {
+          callOrder.push('beforeShow');
+        });
+        eventSpy = jasmine.createSpy('show').and.callFake(function () {
+          callOrder.push('show');
+        });
+        $target.blurOverlay({
+          content: $overlay
+        });
+        $target.on('blurOverlay.beforeShow', beforeEventSpy);
+        $target.on('blurOverlay.show', eventSpy);
+        $target.blurOverlay('show').then(function () {
+          expect(beforeEventSpy).toHaveBeenCalled();
+          expect(eventSpy).toHaveBeenCalled();
+          expect(callOrder[0]).toBe('beforeShow');
+          expect(callOrder[1]).toBe('show');
+          done();
+        });
+      });
+
+      it('beforeHide and hide fired on hide()', function (done) {
+        beforeEventSpy = jasmine.createSpy('beforeHide').and.callFake(function () {
+          callOrder.push('beforeHide');
+        });
+        eventSpy = jasmine.createSpy('hide').and.callFake(function () {
+          callOrder.push('hide');
+        });
+        $target.blurOverlay({
+          content: $overlay,
+          autoShow: true
+        });
+        $target.on('blurOverlay.beforeHide', beforeEventSpy);
+        $target.on('blurOverlay.hide', eventSpy);
+        $target.blurOverlay('hide').then(function () {
+          expect(beforeEventSpy).toHaveBeenCalled();
+          expect(eventSpy).toHaveBeenCalled();
+          expect(callOrder[0]).toBe('beforeHide');
+          expect(callOrder[1]).toBe('hide');
+          done();
+        });
+      });
     });
   });
 }(window, jQuery));

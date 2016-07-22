@@ -94,8 +94,8 @@
       this.$wrapper.css({
         '-webkit-filter': 'blur(0px)',
         filter: 'blur(0px)',
-        '-webkit-transition': '-webkit-filter 600ms linear, filter 300ms linear',
-        transition: '-webkit-filter 600ms linear, filter 300ms linear'
+        '-webkit-transition': '-webkit-filter 300ms linear, filter 300ms linear',
+        transition: '-webkit-filter 300ms linear, filter 300ms linear'
       });
       this.element.wrapAll(this.$wrapper);
       this.$wrapper = this.element.closest('.blur-overlay-wrapper').first();
@@ -115,8 +115,8 @@
         '-webkit-transition': 'opacity 300ms linear',
         transition: 'opacity 300ms linear'
       });
-      this.$overlay.append(this.$content);
       this.$overlay.appendTo('body');
+      this.$overlay.append(this.$content);
     },
 
     _initEvents: function () {
@@ -132,19 +132,34 @@
     _beforeShow: function () {
       this.element.trigger($.Event('blurOverlay.beforeShow'));
       $('body').css('overflow', 'hidden');
-      this.$wrapper.css({
-        '-webkit-filter': 'blur(' + this.options.blurAmount + ')',
-        filter: 'blur(' + this.options.blurAmount + ')'
-      });
-      this.$overlay.css({
-        position: 'absolute',
-        top: 0,
-        bottom: 0,
-        left: 0,
-        right: 0,
-        opacity: 1
-      });
-      this.$content.show();
+      setTimeout(function () {
+        this.$wrapper.css({
+          '-webkit-filter': 'blur(' + this.options.blurAmount + ')',
+          filter: 'blur(' + this.options.blurAmount + ')'
+        });
+        this.$overlay.css({
+          position: 'absolute',
+          top: 0,
+          bottom: 0,
+          left: 0,
+          right: 0,
+          opacity: 1
+        });
+        this.$content.show();
+      }.bind(this), 0);
+      // this.$overlay.css({
+      //   position: 'absolute',
+      //   top: 0,
+      //   bottom: 0,
+      //   left: 0,
+      //   right: 0
+      //   // opacity: 1
+      // });
+      // setTimeout(function () {
+      //   this.$wrapper.addClass('active');
+      //   this.$overlay.addClass('active');
+      //   this.$content.show();
+      // }.bind(this), 0);
     },
 
     _afterShow: function () {
@@ -155,13 +170,17 @@
     _beforeHide: function () {
       this.element.trigger($.Event('blurOverlay.beforeHide'));
       $('body').css('overflow', 'auto');
-      this.$wrapper.css({
-        '-webkit-filter': 'blur(0px)',
-        filter: 'blur(0px)'
-      });
-      this.$overlay.css({
-        opacity: 0
-      });
+      setTimeout(function () {
+        this.$wrapper.css({
+          '-webkit-filter': 'blur(0px)',
+          filter: 'blur(0px)'
+        });
+        this.$overlay.css({
+          opacity: 0
+        });
+        // this.$wrapper.removeClass('active');
+        // this.$overlay.removeClass('active');
+      }.bind(this), 0);
     },
 
     _afterHide: function () {

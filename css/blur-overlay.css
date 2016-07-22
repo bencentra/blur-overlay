@@ -1,0 +1,36 @@
+.blur-overlay-wrapper {
+  -webkit-filter: blur(0px);
+  filter: blur(0px);
+  -webkit-transition: -webkit-filter 333ms ease, filter 333ms ease;
+  transition: -webkit-filter 333ms ease, filter 333ms ease;
+}
+
+.blur-overlay-wrapper.active {
+  -webkit-filter: blur(12px);
+  filter: blur(12px);
+}
+
+.blur-overlay-overlay {
+  /*position: relative;*/
+  z-index: 1000;
+  opacity: 0;
+  -webkit-transition: opacity 333ms ease;
+  transition: opacity 333ms ease;
+}
+
+.blur-overlay-overlay.active {
+  /*position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;*/
+  opacity: 1;
+}
+
+/*.blur-overlay-content {
+
+}
+
+.blur-overlay-content {
+
+}*/
