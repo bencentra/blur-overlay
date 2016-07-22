@@ -9,6 +9,8 @@
     options: {
       // Set to true to show the overlay on init
       autoShow: false,
+      // Background color of the overlay
+      backgroundColor: 'rgba(255, 255, 255, 0)',
       // Amount of pixels to blur by
       blurAmount: '12px',
       // Default content to display
@@ -112,6 +114,7 @@
       this.$overlay = $('<div>').attr('class', 'blur-overlay-overlay');
       this.$overlay.css({
         'z-index': 1000,
+        'background-color': this.options.backgroundColor,
         opacity: 0,
         '-webkit-transition': `opacity ${this.transition}`,
         transition: `opacity ${this.transition}`,

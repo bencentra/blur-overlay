@@ -24,12 +24,14 @@ $(document).on('ready', function () {
   $target.blurOverlay({
     // Overlay content
     content: $overlay,
+    // Background color of the overlay (use rgba for opacity)
+    backgroundColor: 'rgba(255, 255, 255, .25)',
     // Blur amount (default 12px)
     blurAmount: '10px',
     // Duration of CSS transitions
     transitionDuration: '500ms',
     // Type of CSS transitions
-    transitionType: 'cubic-bezier(.22,.57,.27,.92)'
+    transitionType: 'cubic-bezier(.22, .57, .27, .92)'
   });
 
   // Show the overlay

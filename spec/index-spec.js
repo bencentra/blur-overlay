@@ -82,6 +82,15 @@ describe('Blur Overlay plugin', () => {
       expect(data.options.transitionDuration).toEqual(newDuration);
       expect(data.options.transitionType).toEqual(newType);
     });
+
+    it('initializes the plugin with custom background settings', () => {
+      const newBackground = 'rgba(100, 200, 150, .5)';
+      $target.blurOverlay({
+        backgroundColor: newBackground
+      });
+      data = $target.data('custom-blurOverlay');
+      expect(data.options.backgroundColor).toEqual(newBackground);
+    });
   });
 
   describe('public methods', () => {

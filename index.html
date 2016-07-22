@@ -32,6 +32,7 @@
       button {
         font-size: 24px;
         padding: 12px;
+        cursor: pointer;
       }
     </style>
   </head>
@@ -74,7 +75,8 @@
         $overlay.append($hideButton);
         $content = $('#content');
         $content.blurOverlay({
-          content: $overlay
+          content: $overlay,
+          backgroundColor: 'rgba(255, 255, 255, .25)'
         });
         $('#showOverlayButton').on('click', function () {
           $content.blurOverlay('show').then(function () {
