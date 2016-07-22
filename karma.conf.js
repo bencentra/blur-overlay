@@ -18,7 +18,7 @@ module.exports = function(config) {
       // Vendor files
       'vendor/**/*.js',
       // Source files
-      'css/**/*.css',
+      // 'css/**/*.css',
       'src/**/*.js',
       // Test fixtures
       // 'spec/fixtures/**/*.html',

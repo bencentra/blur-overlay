@@ -1,10 +1,6 @@
 (function ($) {
   'use strict';
 
-  var showing;
-  var showDeferred;
-  var hideDeferred;
-
   $.widget('custom.blurOverlay', {
 
     /*
@@ -16,16 +12,21 @@
       // Default content to display
       content: '<h1>Hello, blur overlay!</h1>',
       // Amount of pixels to blur by
-      blurAmount: '12px'
+      blurAmount: '12px',
+      // Milliseconds for CSS transitions
+      transitionDuration: '333ms',
+      // Type of CSS transition
+      transitionType: 'ease-in-out'
     },
 
     /*
     * The "constructor"
     */
     _create: function () {
-      showing = false;
-      showDeferred = null;
-      hideDeferred = null;
+      this.showing = false;
+      this.showDeferred = null;
+      this.hideDeferred = null;
+      this.transition = this.options.transitionDuration + ' ' + this.options.transitionType;
       this._initWrapper();
       this._initContent();
       this._initOverlay();
@@ -39,24 +40,24 @@
     * Show the overlay
     */
     show: function () {
-      showDeferred = $.Deferred();
-      if (!showing) {
+      this.showDeferred = $.Deferred();
+      if (!this.showing) {
         this._beforeShow();
       }
-      showing = true;
-      return showDeferred.promise();
+      this.showing = true;
+      return this.showDeferred.promise();
     },
 
     /*
     * Hide the overlay
     */
     hide: function () {
-      hideDeferred = $.Deferred();
-      if (showing) {
+      this.hideDeferred = $.Deferred();
+      if (this.showing) {
         this._beforeHide();
       }
-      showing = false;
-      return hideDeferred.promise();
+      this.showing = false;
+      return this.hideDeferred.promise();
     },
 
     /*
@@ -72,7 +73,7 @@
     * Return true if overlay is showing, false otherwise
     */
     isShowing: function () {
-      return showing;
+      return this.showing;
     },
 
     /*
@@ -94,8 +95,8 @@
       this.$wrapper.css({
         '-webkit-filter': 'blur(0px)',
         filter: 'blur(0px)',
-        '-webkit-transition': '-webkit-filter 300ms linear, filter 300ms linear',
-        transition: '-webkit-filter 300ms linear, filter 300ms linear'
+        '-webkit-transition': '-webkit-filter ' + this.transition + ', filter ' + this.transition,
+        transition: '-webkit-filter ' + this.transition + ', filter ' + this.transition
       });
       this.element.wrapAll(this.$wrapper);
       this.$wrapper = this.element.closest('.blur-overlay-wrapper').first();
@@ -112,8 +113,8 @@
       this.$overlay.css({
         'z-index': 1000,
         opacity: 0,
-        '-webkit-transition': 'opacity 300ms linear',
-        transition: 'opacity 300ms linear'
+        '-webkit-transition': 'opacity ' + this.transition,
+        transition: 'opacity ' + this.transition
       });
       this.$overlay.appendTo('body');
       this.$overlay.append(this.$content);
@@ -121,7 +122,7 @@
 
     _initEvents: function () {
       this.$overlay.on('transitionend webkitTransitionEnd', function () {
-        if (!showing) {
+        if (!this.showing) {
           this._afterHide();
         } else {
           this._afterShow();
@@ -147,24 +148,23 @@
         });
         this.$content.show();
       }.bind(this), 0);
-      // this.$overlay.css({
-      //   position: 'absolute',
-      //   top: 0,
-      //   bottom: 0,
-      //   left: 0,
-      //   right: 0
-      //   // opacity: 1
-      // });
-      // setTimeout(function () {
       //   this.$wrapper.addClass('active');
       //   this.$overlay.addClass('active');
+      //   setTimeout(function () {
+      //     this.$overlay.css({
+      //     position: 'absolute',
+      //     top: 0,
+      //     bottom: 0,
+      //     left: 0,
+      //     right: 0
+      //   });
       //   this.$content.show();
       // }.bind(this), 0);
     },
 
     _afterShow: function () {
       this.element.trigger($.Event('blurOverlay.show'));
-      showDeferred.resolve(true);
+      this.showDeferred.resolve(true);
     },
 
     _beforeHide: function () {
@@ -187,7 +187,7 @@
       this.$overlay.css('position', 'relative');
       this.$content.hide();
       this.element.trigger($.Event('blurOverlay.hide'));
-      hideDeferred.resolve(true);
+      this.hideDeferred.resolve(true);
     }
 
   });

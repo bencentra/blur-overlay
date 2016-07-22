@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 (function (window, $) {
   var targetFixture = '<div id="target">' +
                         '<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>' +
@@ -71,6 +70,18 @@
         });
         data = $target.data('custom-blurOverlay');
         expect(data.options.autoShow).toEqual(true);
+      });
+
+      it('initializes the plugin with custom transition settings', function () {
+        var newDuration = '1s';
+        var newType = 'linear';
+        $target.blurOverlay({
+          transitionDuration: newDuration,
+          transitionType: newType
+        });
+        data = $target.data('custom-blurOverlay');
+        expect(data.options.transitionDuration).toEqual(newDuration);
+        expect(data.options.transitionType).toEqual(newType);
       });
     });
 

@@ -11,6 +11,7 @@
   "rules": {
     "func-names": "off",
     "new-cap": "off",
-    "no-underscore-dangle": "off"
+    "no-underscore-dangle": "off",
+    "max-len": ["warn", 80]
   }
 }
