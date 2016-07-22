@@ -86,11 +86,13 @@
     });
 
     describe('public methods', function () {
+      beforeEach(function () {
+        $target.blurOverlay({
+          content: $overlay
+        });
+      });
       describe('show()', function () {
         it('displays the overlay', function (done) {
-          $target.blurOverlay({
-            content: $overlay
-          });
           $target.blurOverlay('show').then(function () {
             expect($('.blur-overlay-overlay').css('opacity')).toBe('1');
             done();
@@ -100,13 +102,11 @@
 
       describe('hide()', function () {
         it('hides the overlay', function (done) {
-          $target.blurOverlay({
-            content: $overlay,
-            autoShow: true
-          });
-          $target.blurOverlay('hide').then(function () {
-            expect($('.blur-overlay-overlay').css('opacity')).toBe('0');
-            done();
+          $target.blurOverlay('show').then(function () {
+            $target.blurOverlay('hide').then(function () {
+              expect($('.blur-overlay-overlay').css('opacity')).toBe('0');
+              done();
+            });
           });
         });
       });
@@ -117,9 +117,6 @@
 
         it('changes the content of the overlay (jQuery selector)', function () {
           newContent = $('<h1>').text('LOL');
-          $target.blurOverlay({
-            content: $overlay
-          });
           content = $('.blur-overlay-content').children().first();
           expect(content.html()).toEqual($overlay.html());
           $target.blurOverlay('content', newContent);
@@ -129,9 +126,6 @@
 
         it('changes the content of the overlay (string)', function () {
           newContent = '<h1>LOL</h1>';
-          $target.blurOverlay({
-            content: $overlay
-          });
           content = $('.blur-overlay-content').children().first();
           expect(content.html()).toEqual($overlay.html());
           $target.blurOverlay('content', newContent);
@@ -142,17 +136,11 @@
 
       describe('isShowing()', function () {
         it('returns true if overlay is showing', function () {
-          $target.blurOverlay({
-            content: $overlay,
-            autoShow: true
-          });
+          $target.blurOverlay('show');
           expect($target.blurOverlay('isShowing')).toBe(true);
         });
 
         it('returns false if overlay is not showing', function () {
-          $target.blurOverlay({
-            content: $overlay
-          });
           expect($target.blurOverlay('isShowing')).toBe(false);
         });
       });
@@ -169,6 +157,9 @@
 
       beforeEach(function () {
         callOrder = [];
+        $target.blurOverlay({
+          content: $overlay
+        });
       });
 
       it('beforeShow and show fired on show()', function (done) {
@@ -177,9 +168,6 @@
         });
         eventSpy = jasmine.createSpy('show').and.callFake(function () {
           callOrder.push('show');
-        });
-        $target.blurOverlay({
-          content: $overlay
         });
         $target.on('blurOverlay.beforeShow', beforeEventSpy);
         $target.on('blurOverlay.show', eventSpy);
@@ -199,18 +187,16 @@
         eventSpy = jasmine.createSpy('hide').and.callFake(function () {
           callOrder.push('hide');
         });
-        $target.blurOverlay({
-          content: $overlay,
-          autoShow: true
-        });
         $target.on('blurOverlay.beforeHide', beforeEventSpy);
         $target.on('blurOverlay.hide', eventSpy);
-        $target.blurOverlay('hide').then(function () {
-          expect(beforeEventSpy).toHaveBeenCalled();
-          expect(eventSpy).toHaveBeenCalled();
-          expect(callOrder[0]).toBe('beforeHide');
-          expect(callOrder[1]).toBe('hide');
-          done();
+        $target.blurOverlay('show').then(function () {
+          $target.blurOverlay('hide').then(function () {
+            expect(beforeEventSpy).toHaveBeenCalled();
+            expect(eventSpy).toHaveBeenCalled();
+            expect(callOrder[0]).toBe('beforeHide');
+            expect(callOrder[1]).toBe('hide');
+            done();
+          });
         });
       });
     });

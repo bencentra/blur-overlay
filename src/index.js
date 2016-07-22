@@ -13,9 +13,9 @@
       content: '<h1>Hello, blur overlay!</h1>',
       // Amount of pixels to blur by
       blurAmount: '12px',
-      // Milliseconds for CSS transitions
+      // Duration of CSS transitions
       transitionDuration: '333ms',
-      // Type of CSS transition
+      // Type of CSS transitions
       transitionType: 'ease-in-out'
     },
 
