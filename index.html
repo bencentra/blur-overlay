@@ -18,15 +18,20 @@
         width: 100%;
         height: 100%;
         text-align: center;
-        background-image: url("https://bencentra.com/centrarium/assets/header_image.jpg");
-        color: white;
-        text-shadow: 1px 1px #666;
+        background-image: url('img/background.png');
+        color: #222
+        text-shadow: 1px 1px #ddd;
       }
       img {
         box-shadow: 3px 3px 6px #333;
       }
       #overlay {
         text-align: center;
+        padding: 20px;
+      }
+      button {
+        font-size: 24px;
+        padding: 12px;
       }
     </style>
   </head>
@@ -34,12 +39,14 @@
     <div id="content">
       <h1>Just some demo content</h1>
       <p><button id="showOverlayButton">Show Overlay</button></p>
-      <img src="https://bencentra.com/assets/images/bookshelf.jpg" width="400" height="300">
+      <img src="img/placeholder.png">
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-      <img src="https://bencentra.com/assets/images/bookshelf.jpg" width="400" height="300">
+      <h2>Some pretty great content here, too</h2>
+      <img src="img/placeholder2.png">
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-      <img src="https://bencentra.com/assets/images/bookshelf.jpg" width="400" height="300">
+      <h2>What an exciting read!</h2>
+      <img src="img/placeholder2.png">
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
     </div>
@@ -57,11 +64,12 @@
         $overlay = $('<div>').attr('id', 'overlay');
         $overlay.append($('<h1>').text('This is the overlay!'));
         $overlay.append($('<p>').text('The background is so blurry, it\'s great!'));
+        $overlay.append($('<p>').text('Lorem ipsum dolor sit amet and the rest.'));
         $hideButton = $('<button>').attr('id', 'hideOverlayButton').text('Hide Overlay');
         $hideButton.on('click', function () {
           $content.blurOverlay('hide').then(function () {
             console.log('hide deferred resolved!');
-          });;
+          });
         });
         $overlay.append($hideButton);
         $content = $('#content');

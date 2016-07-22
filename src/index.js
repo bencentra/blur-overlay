@@ -9,10 +9,10 @@
     options: {
       // Set to true to show the overlay on init
       autoShow: false,
-      // Default content to display
-      content: '<h1>Hello, blur overlay!</h1>',
       // Amount of pixels to blur by
       blurAmount: '12px',
+      // Default content to display
+      content: '<h1>Hello, blur overlay!</h1>',
       // Duration of CSS transitions
       transitionDuration: '333ms',
       // Type of CSS transitions
