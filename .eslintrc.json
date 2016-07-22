@@ -1,6 +1,7 @@
 {
-  "extends": "airbnb-base/legacy",
+  "extends": "airbnb-base",
   "env": {
+    "browser": true,
     "jquery": true,
     "jasmine": true
   },
@@ -9,6 +10,7 @@
     "loadFixtures": true
   },
   "rules": {
+    "strict": "off",
     "func-names": "off",
     "new-cap": "off",
     "no-underscore-dangle": "off",
