@@ -148,18 +148,6 @@
         });
         this.$content.show();
       }, 0);
-      //   this.$wrapper.addClass('active');
-      //   this.$overlay.addClass('active');
-      //   setTimeout(() => {
-      //     this.$overlay.css({
-      //     position: 'absolute',
-      //     top: 0,
-      //     bottom: 0,
-      //     left: 0,
-      //     right: 0
-      //   });
-      //   this.$content.show();
-      // }, 0);
     },
 
     _afterShow() {
@@ -178,8 +166,6 @@
         this.$overlay.css({
           opacity: 0,
         });
-        // this.$wrapper.removeClass('active');
-        // this.$overlay.removeClass('active');
       }, 0);
     },
 
