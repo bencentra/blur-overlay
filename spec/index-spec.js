@@ -86,7 +86,7 @@ describe('Blur Overlay plugin', () => {
     it('initializes the plugin with custom background settings', () => {
       const newBackground = 'rgba(100, 200, 150, .5)';
       $target.blurOverlay({
-        backgroundColor: newBackground
+        backgroundColor: newBackground,
       });
       data = $target.data('custom-blurOverlay');
       expect(data.options.backgroundColor).toEqual(newBackground);
@@ -153,9 +153,14 @@ describe('Blur Overlay plugin', () => {
       });
     });
 
-    // describe('destroy()', () => {
-    //
-    // });
+    describe('destroy()', () => {
+      it('destroys the plugin and cleans up the DOM', () => {
+        $target.blurOverlay('destroy');
+        expect($target.data('custom-blurOverlay')).not.toBeDefined();
+        expect($('.blur-overlay-wrapper').length).toBe(0);
+        expect($('.blur-overlay-overlay').length).toBe(0);
+      });
+    });
   });
 
   describe('events', () => {

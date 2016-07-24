@@ -1,6 +1,7 @@
 (function ($) {
   'use strict';
 
+  // For more on $.widget(), see: https://api.jqueryui.com/jquery.widget/
   $.widget('custom.blurOverlay', {
 
     /*
@@ -36,6 +37,15 @@
       if (this.options.autoShow) {
         this.show();
       }
+    },
+
+    /*
+    * Destroy the plugin instance and clean up the DOM
+    */
+    _destroy() {
+      this.element.unwrap();
+      this.$overlay.remove();
+      $('body').css('overflow', 'auto');
     },
 
     /*
@@ -77,16 +87,6 @@
     isShowing() {
       return this.showing;
     },
-
-    /*
-    * Destroy the plugin instance and clean up the DOM
-    */
-    // destroy() {
-    //   this.element.unwrap();
-    //   this.$overlay.remove();
-    //   this.element.data('custom-blurOverlay', null);
-    //   $('body').css('overflow', 'auto');
-    // },
 
     /*
     * Private methods

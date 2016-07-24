@@ -63,6 +63,9 @@ $(document).on('ready', function () {
   $target.on('blurOverlay.hide', function () {
     console.log('hide event');
   });
+
+  // Destroy the plugin instance and clean up the DOM
+  $target.blurOverlay('destroy');
 });
 ```
 
@@ -89,6 +92,9 @@ Use the npm scripts defined in `package.json` to perform common build tasks:
 | `npm run test-serve` | Start the Karma server (can debug at http://localhost:9876) |
 | `npm run lint` | Lint `src/` and `spec/` with ESLint (with `--fix` flag) |
 | `npm run build` | Transpile `src/` using Babel, sending output to `dist/` |
+| `npm run demo` | Launch the demo page (`index.html`) |
+
+Make sure to run `npm run build` in between code changes to keep the demo page up-to-date!
 
 ## License
 
