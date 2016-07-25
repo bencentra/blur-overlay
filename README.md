@@ -10,7 +10,9 @@ Requires jQuery (developed with 2.2.4) and jQuery UI (developed with 1.12.0).
 
 ## Installation
 
-For now, just grab the latest `dist/index.js`.
+For now, just grab the latest file:
+* Development: `dist/blur-overlay.js` (~5kb)
+* Production: `dist/blur-overlay.min.js` (~3kb)
 
 ## Usage
 
@@ -90,10 +92,11 @@ Use the npm scripts defined in `package.json` to perform common build tasks:
 
 | Command | Description |
 | --- | --- |
+| `npm start` | Run lint, tests, and build upon changes to `src/` and `spec/` |
 | `npm test` | Run unit tests using Karma and PhantomJS (single-run only) |
-| `npm run test-serve` | Start the Karma server (can debug at http://localhost:9876) |
+| `npm run test:serve` | Start the Karma server (can debug at http://localhost:9876) |
 | `npm run lint` | Lint `src/` and `spec/` with ESLint (with `--fix` flag) |
-| `npm run build` | Transpile `src/` using Babel, sending output to `dist/` |
+| `npm run build` | Transpile `src/` using Babel and minify using UglifyJS2, sending output to `dist/` |
 | `npm run demo` | Launch the demo page (`index.html`) |
 
 Make sure to run `npm run build` in between code changes to keep the demo page up-to-date!

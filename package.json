@@ -7,11 +7,14 @@
     "node": ">=6.0.0"
   },
   "scripts": {
+    "build:babel": "babel src/ -d dist/",
+    "build:uglify": "uglifyjs dist/blur-overlay.js -o dist/blur-overlay.min.js -c -m",
+    "build": "npm run build:babel && npm run build:uglify",
     "demo": "hs -o -p 8000 .",
     "lint": "eslint -c .eslintrc.json src/ spec/ --fix",
+    "start": "watch 'npm run lint && npm test && npm run build' src/ spec/",
     "test": "karma start karma.conf.js --single-run",
-    "test-serve": "karma start karma.conf.js",
-    "build": "babel src/ -d dist/"
+    "test:serve": "karma start karma.conf.js"
   },
   "repository": {
     "type": "git",
@@ -40,6 +43,8 @@
     "karma-babel-preprocessor": "^6.0.1",
     "karma-coverage": "^1.1.0",
     "karma-jasmine": "^1.0.2",
-    "karma-phantomjs-launcher": "^1.0.1"
+    "karma-phantomjs-launcher": "^1.0.1",
+    "uglify-js": "^2.7.0",
+    "watch": "^0.19.1"
   }
 }
