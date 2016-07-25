@@ -1,0 +1,9 @@
+machine:
+  node:
+    version: 6.3.0
+
+test:
+  override:
+    - npm run lint
+    - npm test
+    - npm run build

@@ -1,5 +1,7 @@
 # blur-overlay
 
+[![CircleCI](https://circleci.com/gh/bencentra/blur-overlay.svg?style=svg)](https://circleci.com/gh/bencentra/blur-overlay)
+
 ![Example of the blur overlay](img/example.png)
 
 jQuery plugin for creating blurry overlays. Can customize the content, blur amount, and transition types.
