@@ -1,18 +1,16 @@
 # blur-overlay
 
-[![CircleCI](https://circleci.com/gh/bencentra/blur-overlay.svg?style=svg)](https://circleci.com/gh/bencentra/blur-overlay)
-
-![Example of the blur overlay](img/example.png)
+![Example of the blur overlay](http://i.giphy.com/cLyoZ6vi41k4.gif)
 
 jQuery plugin for creating blurry overlays. Can customize the content, blur amount, and transition types.
 
-Requires jQuery (developed with 2.2.4) and jQuery UI (developed with 1.12.0).
+Requires jQuery (`>=2.2.4`) and jQuery UI (`>=1.12.0`).
 
 ## Installation
 
 For now, just grab the latest file:
-* Development: `dist/blur-overlay.js` (~5kb)
-* Production: `dist/blur-overlay.min.js` (~3kb)
+* [Development](https://raw.githubusercontent.com/bencentra/blur-overlay/master/dist/blur-overlay.js) (unminified, ~5kb)
+* [Production](https://raw.githubusercontent.com/bencentra/blur-overlay/master/dist/blur-overlay.js) (minified, ~3kb)
 
 ## Usage
 

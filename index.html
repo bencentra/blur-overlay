@@ -2,71 +2,151 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Blur Overlay Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>jQuery Blur Overlay</title>
+    <link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/zenburn.min.css">
     <style>
-      * {
-        box-sizing: border-box;
-      }
-      html, body {
-        padding: 0;
-        margin: 0;
-      }
-      #content {
-        padding: 1px;
-        margin: 0;
-        font-family: sans-serif;
-        width: 100%;
-        height: 100%;
-        text-align: center;
-        background-image: url('img/background.png');
-        color: #222
-        text-shadow: 1px 1px #ddd;
+      body {
+        padding: 20px 10px;
       }
       img {
         box-shadow: 3px 3px 6px #333;
       }
-      #overlay {
+      .center {
         text-align: center;
-        padding: 20px;
       }
-      button {
-        font-size: 24px;
-        padding: 12px;
-        cursor: pointer;
+      pre, code {
+        text-align: left;
+      }
+      #overlay {
+        padding: 60px 10px;
       }
     </style>
   </head>
   <body>
-    <div id="content">
-      <h1>Just some demo content</h1>
-      <p><button id="showOverlayButton">Show Overlay</button></p>
-      <img src="img/placeholder.png">
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-      <h2>Some pretty great content here, too</h2>
-      <img src="img/placeholder2.png">
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-      <h2>What an exciting read!</h2>
-      <img src="img/placeholder2.png">
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <div id="content" class="container">
+      <div class="jumbotron jumbotron-fluid center">
+        <div class="container">
+          <h1 class="display-3">Blur Overlay</h1>
+          <p class="lead">A jQuery plugin for displaying a full-screen overlay over blurred body content</p>
+          <p class="lead"><button type="button" id="showOverlayButton" class="btn btn-primary btn-lg">See it in action!</button></p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <h2>Installation</h2>
+        </div>
+        <!-- <div class="col-sm-6">
+          <p>Grab it from a package manager:
+          <ul>
+            <li><strong>npm:</strong> <code>npm install --save blur-overlay</code></li>
+            <li><strong>Bower:</strong> <code>bower install --save blur-overlay</code></li>
+          </ul>
+        </div> -->
+        <div class="col-sm-12">
+          <p>For now, just grab the source:</p>
+          <ul>
+            <li><a href="https://raw.githubusercontent.com/bencentra/blur-overlay/master/dist/blur-overlay.js">Development</a> (unminified, ~5kb)</li>
+            <li><a href="https://raw.githubusercontent.com/bencentra/blur-overlay/master/dist/blur-overlay.min.js">Production</a> (minified, ~3kb)</li>
+          </ul>
+        </div>
+        <div class="col-sm-12">
+          <p>Relies on jQuery (<code>&gt;=2.2.4</code>) and jQuery UI (<code>&gt;=1.12.0</code>).</p>
+        </div>
+        <div class="col-sm-12">
+          <br>
+          <h2>Example</h2>
+          <pre><code class="javascript">
+  $(document).on('ready', function () {
+
+    // Grab the element you want to "wrap" with blur
+    var $target = $('#something');
+
+    // Grab the content you want to display in the overlay
+    var $overlay = $('#overlay').detach().show();
+
+    // Initialize the overlay
+    $target.blurOverlay({
+      // Overlay content
+      content: $overlay,
+      // Background color of the overlay (use rgba for opacity)
+      backgroundColor: 'rgba(255, 255, 255, .25)',
+      // Blur amount (default 12px)
+      blurAmount: '10px',
+      // Duration of CSS transitions
+      transitionDuration: '500ms',
+      // Type of CSS transitions
+      transitionType: 'cubic-bezier(.22, .57, .27, .92)'
+    });
+
+    // Show the overlay
+    $target.blurOverlay('show').then(function () {
+      console.log('overlay is showing');
+    });
+
+    // Hide the overlay
+    $target.blurOverlay('hide').then(function () {
+      console.log('overlay is hidden');
+    });
+
+    // Update the content of the overlay
+    $target.blurOverlay('content', '&lt;p&gt;New Content&lt;/p&gt;');
+
+    // Determine if the overlay is showing (true or false)
+    console.log('Overlay is showing: ' + $target.blurOverlay('isShowing'));
+
+    // Listen for events on the overlay
+    $target.on('blurOverlay.beforeShow', function () {
+      console.log('beforeShow event');
+    });
+    $target.on('blurOverlay.show', function () {
+      console.log('show event');
+    });
+    $target.on('blurOverlay.beforeHide', function () {
+      console.log('beforeHide event');
+    });
+    $target.on('blurOverlay.hide', function () {
+      console.log('hide event');
+    });
+
+    // Destroy the plugin instance and clean up the DOM
+    $target.blurOverlay('destroy');
+
+  });
+          </code></pre>
+        </div>
+      </div>
+    </div>
+    <div id="overlay" class="container center" style="display:none;">
+      <div class="row">
+        <div class="col-sm-12">
+          <h1>This is the overlay!</h1>
+          <br>
+          <p>The background is so blurry, it's great!</p>
+          <p>Lorem ipsum dolor sit amet and the rest.</p>
+          <br>
+          <button type="button" id="hideOverlayButton" class="btn btn-secondary btn-lg">Hide the overlay</button>
+        </div>
+      </div>
     </div>
     <script src="vendor/jquery-2.2.4.min.js"></script>
     <script src="vendor/jquery-ui-1.12.0.min.js"></script>
+    <!-- <script src="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/js/bootstrap.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/highlight.min.js"></script>
     <script src="dist/blur-overlay.js"></script>
     <script>
+
+      hljs.initHighlightingOnLoad();
+
       $(document).on('ready', function() {
 
-        var $content, $overlay, $hideButton;
+        var $content, $overlay, $showButton, $hideButton;
 
-        /*
-        * Content is defined before init
-        */
-        $overlay = $('<div>').attr('id', 'overlay');
-        $overlay.append($('<h1>').text('This is the overlay!'));
-        $overlay.append($('<p>').text('The background is so blurry, it\'s great!'));
-        $overlay.append($('<p>').text('Lorem ipsum dolor sit amet and the rest.'));
-        $hideButton = $('<button>').attr('id', 'hideOverlayButton').text('Hide Overlay');
+        // Grab overlay content from the DOM and initialize the overlay
+        $overlay = $('#overlay').detach().show();
+        $hideButton = $overlay.find('#hideOverlayButton');
         $hideButton.on('click', function () {
           $content.blurOverlay('hide').then(function () {
             console.log('hide deferred resolved!');
@@ -78,32 +158,14 @@
           content: $overlay,
           backgroundColor: 'rgba(255, 255, 255, .25)'
         });
-        $('#showOverlayButton').on('click', function () {
+        $showButton = $('#showOverlayButton');
+        $showButton.on('click', function () {
           $content.blurOverlay('show').then(function () {
             console.log('show deferred resolved!');
           });
         });
 
-        /*
-        * Content is defined after init
-        */
-        // $content = $('#content').blurOverlay();
-        // $('#showOverlayButton').on('click', function() {
-        //   $overlay = $('<div>').attr('id', 'overlay');
-        //   $overlay.append($('<h1>').text('This is the overlay!'));
-        //   $overlay.append($('<p>').text('The background is so blurry, it\'s great!'));
-        //   $hideButton= $('<button>').attr('id', 'hideOverlayButton').text('Hide Overlay');
-        //   $overlay.append($hideButton);
-        //   $content.blurOverlay('content', $overlay);
-        //   $content.blurOverlay('show');
-        //   $hideButton.on('click', function() {
-        //     $content.blurOverlay('hide');
-        //   });
-        // });
-
-        /*
-        * Event listeners
-        */
+        // Event listeners
         $content.on('blurOverlay.beforeShow', function() {
           console.log('beforeShow event');
         });
@@ -118,6 +180,7 @@
         });
 
       });
+
     </script>
   </body>
 </html>

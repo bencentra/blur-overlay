@@ -151,7 +151,7 @@
           filter: 'blur(' + _this2.options.blurAmount + ')'
         });
         _this2.$overlay.css({
-          position: 'absolute',
+          position: 'fixed',
           top: 0,
           bottom: 0,
           left: 0,
