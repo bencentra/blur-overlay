@@ -6,6 +6,8 @@ jQuery plugin for creating blurry overlays. Can customize the content, blur amou
 
 Requires jQuery (`>=2.2.4`) and jQuery UI (`>=1.12.0`).
 
+[Check out the demo!](https://bencentra.github.io/blur-overlay/)
+
 ## Installation
 
 For now, just grab the latest file:
