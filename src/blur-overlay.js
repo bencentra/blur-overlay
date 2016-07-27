@@ -16,6 +16,12 @@
       blurAmount: '12px',
       // Default content to display
       content: '<h1>Hello, blur overlay!</h1>',
+      // Array of selectors to mask
+      masks: [],
+      // Color to apply to masks
+      maskColor: 'rgba(255, 255, 255, 1)',
+      // Opacity of masks when shown
+      maskOpacity: 1,
       // Duration of CSS transitions
       transitionDuration: '333ms',
       // Type of CSS transitions
@@ -30,6 +36,7 @@
       this.showDeferred = null;
       this.hideDeferred = null;
       this.transition = `${this.options.transitionDuration} ${this.options.transitionType}`;
+      this.masks = [];
       this._initWrapper();
       this._initContent();
       this._initOverlay();
@@ -133,9 +140,58 @@
       });
     },
 
+    _addMasks() {
+      this.masks = [];
+      this.options.masks.forEach(selector => {
+        const $contentToMask = $(selector);
+        const contentOffset = $contentToMask.offset();
+        const $mask = $('<div>').attr('class', 'blur-overlay-mask');
+        $mask.css({
+          width: $contentToMask.width(),
+          height: $contentToMask.height(),
+          position: 'fixed',
+          top: contentOffset.top,
+          left: contentOffset.left,
+          opacity: 0,
+          transition: `opacity ${this.transition}`,
+          'z-index': 1000,
+          'background-color': this.options.maskColor,
+        });
+        $contentToMask.after($mask);
+        this.masks.push({
+          selector,
+          $mask,
+        });
+      });
+    },
+
+    _showMasks() {
+      this.masks.forEach(mask => {
+        mask.$mask.css({
+          opacity: this.options.maskOpacity,
+        });
+      });
+    },
+
+    _hideMasks() {
+      this.masks.forEach(mask => {
+        mask.$mask.css({
+          opacity: 0,
+        });
+      });
+    },
+
+    _removeMasks() {
+      this.masks.forEach(mask => {
+        mask.$mask.remove();
+      });
+      this.masks = [];
+    },
+
     _beforeShow() {
       this.element.trigger($.Event('blurOverlay.beforeShow'));
       $('body').css('overflow', 'hidden');
+      this._addMasks();
       setTimeout(() => {
         this.$wrapper.css({
           '-webkit-filter': `blur(${this.options.blurAmount})`,
@@ -149,6 +205,7 @@
           right: 0,
           opacity: 1,
         });
+        this._showMasks();
         this.$content.show();
       }, 0);
     },
@@ -169,12 +226,14 @@
         this.$overlay.css({
           opacity: 0,
         });
+        this._hideMasks();
       }, 0);
     },
 
     _afterHide() {
       this.$overlay.css('position', 'relative');
       this.$content.hide();
+      this._removeMasks();
       this.element.trigger($.Event('blurOverlay.hide'));
       this.hideDeferred.resolve(true);
     },

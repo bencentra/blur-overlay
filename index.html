@@ -58,7 +58,7 @@
         <div class="col-sm-12">
           <br>
           <h2>Example</h2>
-          <pre><code class="javascript">
+          <pre class="mask-me"><code class="javascript">
   $(document).on('ready', function () {
 
     // Grab the element you want to "wrap" with blur
@@ -156,7 +156,9 @@
         $content = $('#content');
         $content.blurOverlay({
           content: $overlay,
-          backgroundColor: 'rgba(255, 255, 255, .25)'
+          backgroundColor: 'rgba(255, 255, 255, .25)',
+          masks: [$('.mask-me')],
+          maskColor: 'rgba(255, 255, 255, 0.5)'
         });
         $showButton = $('#showOverlayButton');
         $showButton.on('click', function () {

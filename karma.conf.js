@@ -32,7 +32,7 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'src/**/*.js': ['babel', 'coverage'],
+      'src/**/*.js': ['babel'],
       'spec/**/*.js': ['babel']
     },
 
@@ -48,7 +48,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress', 'coverage'],
+    reporters: ['progress'],
 
 
     // web server port
@@ -80,5 +80,17 @@ module.exports = function(config) {
     // Concurrency level
     // how many browser should be started simultaneous
     concurrency: 1
-  })
+  });
+
+  // Only include the 'coverage' reporter/preprocessor in singleRun mode
+  // (allows for breakpoints when debugging in the browser)
+  if (config.singleRun === true) {
+    config.set({
+      preprocessors: {
+        'src/**/*.js': ['babel', 'coverage'],
+        'spec/**/*.js': ['babel']
+      },
+      reporters: ['progress', 'coverage']
+    });
+  }
 }
