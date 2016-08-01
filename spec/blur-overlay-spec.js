@@ -93,60 +93,17 @@ describe('Blur Overlay plugin', () => {
       expect(data.options.backgroundColor).toEqual(newBackground);
     });
 
-    it('initializes the plugin with mask settings', () => {
-      const masks = ['.mask-me'];
-      const maskColor = 'rgb(255, 0, 0)';
-      const maskOpacity = '0.5';
+    it('initializes the plugin with a content mask', () => {
+      const masks = [{
+        selector: '.mask-me',
+        color: 'rgb(255, 0, 0)',
+        opacity: '0.5',
+      }];
       $target.blurOverlay({
         masks,
-        maskColor,
-        maskOpacity,
       });
       data = $target.data('custom-blurOverlay');
       expect(data.options.masks).toEqual(masks);
-      expect(data.options.maskColor).toEqual(maskColor);
-      expect(data.options.maskOpacity).toEqual(maskOpacity);
-    });
-  });
-
-  describe('with masks', () => {
-    describe('public methods', () => {
-      const masks = ['.mask-me'];
-      const maskColor = 'rgb(255, 0, 0)';
-      const maskOpacity = '0.5';
-
-      beforeEach(() => {
-        $target.blurOverlay({
-          content: $overlay,
-          masks,
-          maskColor,
-          maskOpacity,
-        });
-      });
-
-      describe('show()', () => {
-        it('displays the overlay and masks the specified content', done => {
-          $target.blurOverlay('show').then(() => {
-            expect($('.blur-overlay-overlay').css('opacity')).toBe('1');
-            expect($('.blur-overlay-mask').length).toBe(1);
-            expect($('.blur-overlay-mask').css('opacity')).toEqual(maskOpacity);
-            expect($('.blur-overlay-mask').css('background-color')).toEqual(maskColor);
-            done();
-          });
-        });
-      });
-
-      describe('hide()', () => {
-        it('hides the overlay and removes the masks', done => {
-          $target.blurOverlay('show').then(() => {
-            $target.blurOverlay('hide').then(() => {
-              expect($('.blur-overlay-overlay').css('opacity')).toBe('0');
-              expect($('.blur-overlay-mask').length).toBe(0);
-              done();
-            });
-          });
-        });
-      });
     });
   });
 
@@ -217,6 +174,49 @@ describe('Blur Overlay plugin', () => {
         expect($target.data('custom-blurOverlay')).not.toBeDefined();
         expect($('.blur-overlay-wrapper').length).toBe(0);
         expect($('.blur-overlay-overlay').length).toBe(0);
+      });
+    });
+  });
+
+  describe('with masks', () => {
+    describe('public methods', () => {
+      const masks = [{
+        selector: '.mask-me',
+        color: 'rgb(255, 0, 0)',
+        opacity: '0.5',
+      }];
+
+      beforeEach(() => {
+        $target.blurOverlay({
+          content: $overlay,
+          masks,
+        });
+      });
+
+      describe('show()', () => {
+        it('displays the overlay and masks the specified content', done => {
+          $target.blurOverlay('show').then(() => {
+            expect($('.blur-overlay-overlay').css('opacity')).toBe('1');
+            expect($('.blur-overlay-mask').length).toBe(1);
+            expect($('.mask-me').next().attr('class')).toBe('blur-overlay-mask');
+            expect($('.blur-overlay-mask').css('opacity')).toEqual(masks[0].opacity);
+            expect($('.blur-overlay-mask').css('background-color')).toEqual(masks[0].color);
+            done();
+          });
+        });
+      });
+
+      describe('hide()', () => {
+        it('hides the overlay and removes the masks', done => {
+          $target.blurOverlay('show').then(() => {
+            $target.blurOverlay('hide').then(() => {
+              expect($('.blur-overlay-overlay').css('opacity')).toBe('0');
+              expect($('.blur-overlay-mask').length).toBe(0);
+              expect($('.mask-me').next().attr('class')).not.toBe('blur-overlay-mask');
+              done();
+            });
+          });
+        });
       });
     });
   });

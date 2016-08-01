@@ -1,6 +1,11 @@
 (function ($) {
   'use strict';
 
+  const MASK_DEFAULTS = {
+    color: 'rgba(255, 255, 255, 0.5)',
+    opacity: 1,
+  };
+
   // For more on $.widget(), see: https://api.jqueryui.com/jquery.widget/
   $.widget('custom.blurOverlay', {
 
@@ -16,12 +21,13 @@
       blurAmount: '12px',
       // Default content to display
       content: '<h1>Hello, blur overlay!</h1>',
-      // Array of selectors to mask
+      // Array of "mask" objects, resembling
+      // {
+      //   selector: '.mask-me',
+      //   color: 'rgba(255, 255, 255, 0.5)',
+      //   opacity: 1
+      // }
       masks: [],
-      // Color to apply to masks
-      maskColor: 'rgba(255, 255, 255, 1)',
-      // Opacity of masks when shown
-      maskOpacity: 1,
       // Duration of CSS transitions
       transitionDuration: '333ms',
       // Type of CSS transitions
@@ -142,8 +148,8 @@
 
     _addMasks() {
       this.masks = [];
-      this.options.masks.forEach(selector => {
-        const $contentToMask = $(selector);
+      this.options.masks.forEach(config => {
+        const $contentToMask = $(config.selector);
         const contentOffset = $contentToMask.offset();
         const $mask = $('<div>').attr('class', 'blur-overlay-mask');
         $mask.css({
@@ -155,11 +161,11 @@
           opacity: 0,
           transition: `opacity ${this.transition}`,
           'z-index': 1000,
-          'background-color': this.options.maskColor,
+          'background-color': config.color || MASK_DEFAULTS.color,
         });
         $contentToMask.after($mask);
         this.masks.push({
-          selector,
+          config,
           $mask,
         });
       });
@@ -168,7 +174,7 @@
     _showMasks() {
       this.masks.forEach(mask => {
         mask.$mask.css({
-          opacity: this.options.maskOpacity,
+          opacity: mask.config.opacity || MASK_DEFAULTS.opacity,
         });
       });
     },
