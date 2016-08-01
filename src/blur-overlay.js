@@ -32,7 +32,6 @@
       //   opacity: 1,
       //   width: '300px',
       //   height: '200px'
-      // }
       masks: [],
       // Some browsers have quirks related to blur and other filters,
       // especially when dealing with absolute/fixed position elements.
