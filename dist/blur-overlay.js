@@ -19,8 +19,11 @@
       blurAmount: '12px',
       // Default content to display
       content: '<h1>Hello, blur overlay!</h1>',
+      // Array of selectors to mask
       masks: [],
+      // Color to apply to masks
       maskColor: 'rgba(255, 255, 255, 1)',
+      // Opacity of masks when shown
       maskOpacity: 1,
       // Duration of CSS transitions
       transitionDuration: '333ms',
@@ -195,7 +198,6 @@
     _beforeShow: function _beforeShow() {
       var _this4 = this;
 
-      console.log('_beforeShow');
       this.element.trigger($.Event('blurOverlay.beforeShow'));
       $('body').css('overflow', 'hidden');
       this._addMasks();
@@ -217,14 +219,12 @@
       }, 0);
     },
     _afterShow: function _afterShow() {
-      console.log('_afterShow');
       this.element.trigger($.Event('blurOverlay.show'));
       this.showDeferred.resolve(true);
     },
     _beforeHide: function _beforeHide() {
       var _this5 = this;
 
-      console.log('_beforeHide');
       this.element.trigger($.Event('blurOverlay.beforeHide'));
       $('body').css('overflow', 'auto');
       setTimeout(function () {
@@ -239,7 +239,6 @@
       }, 0);
     },
     _afterHide: function _afterHide() {
-      console.log('_afterHide');
       this.$overlay.css('position', 'relative');
       this.$content.hide();
       this._removeMasks();
