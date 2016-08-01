@@ -35,7 +35,13 @@ $(document).on('ready', function () {
     // Duration of CSS transitions
     transitionDuration: '500ms',
     // Type of CSS transitions
-    transitionType: 'cubic-bezier(.22, .57, .27, .92)'
+    transitionType: 'cubic-bezier(.22, .57, .27, .92)',
+    // Elements to "mask" (adds an extra overlay to improve visual contrast)
+    masks: [$('.mask-me')],
+    // Color to apply to all masks
+    maskColor: 'rgba(255, 255, 255, 0.5)',
+    // Opacity to apply to all masks,
+    maskOpacity: 1
   });
 
   // Show the overlay

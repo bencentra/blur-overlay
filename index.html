@@ -6,7 +6,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>jQuery Blur Overlay</title>
     <link rel="stylesheet" href="vendor/bootstrap-4.0.0-alpha.3.min.css">
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/zenburn.min.css"> -->
+    <link rel="stylesheet" href="vendor/highlight-9.5.0-zenburn.min.css">
     <style>
       body {
         padding: 20px 10px;
@@ -78,7 +78,13 @@
       // Duration of CSS transitions
       transitionDuration: '500ms',
       // Type of CSS transitions
-      transitionType: 'cubic-bezier(.22, .57, .27, .92)'
+      transitionType: 'cubic-bezier(.22, .57, .27, .92)',
+      // Elements to "mask" (adds an extra overlay to improve visual contrast)
+      masks: [$('.mask-me')],
+      // Color to apply to all masks
+      maskColor: 'rgba(255, 255, 255, 0.5)',
+      // Opacity to apply to all masks,
+      maskOpacity: 1
     });
 
     // Show the overlay
@@ -134,11 +140,11 @@
     <script src="vendor/jquery-2.2.4.min.js"></script>
     <script src="vendor/jquery-ui-1.12.0.min.js"></script>
     <!-- <script src="vendor/bootstrap-4.0.0-alpha.3.min.js"></script> -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/highlight.min.js"></script> -->
+    <script src="vendor/highlight-9.5.0.min.js"></script>
     <script src="dist/blur-overlay.js"></script>
     <script>
 
-      // hljs.initHighlightingOnLoad();
+      hljs.initHighlightingOnLoad();
 
       $(document).on('ready', function() {
 
