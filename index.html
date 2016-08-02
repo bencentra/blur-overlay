@@ -9,7 +9,14 @@
     <link rel="stylesheet" href="vendor/highlight-9.5.0-zenburn.min.css">
     <style>
       body {
+        width: 100%;
+        height: 100%;
+      }
+      #content {
         padding: 20px 10px;
+        background-image: url('img/pattern.png');
+        width: 100%;
+        height: 100%;
       }
       img {
         box-shadow: 3px 3px 6px #333;
@@ -26,104 +33,106 @@
     </style>
   </head>
   <body>
-    <div id="content" class="container">
-      <div class="jumbotron jumbotron-fluid center">
-        <div class="container">
-          <h1 class="display-3">Blur Overlay</h1>
-          <p class="lead">A jQuery plugin for displaying a full-screen overlay over blurred body content</p>
-          <p class="lead"><button type="button" id="showOverlayButton" class="btn btn-primary btn-lg">See it in action!</button></p>
+    <div id="content">
+      <div class="container">
+        <div class="jumbotron jumbotron-fluid center">
+          <div class="container">
+            <h1 class="display-3">Blur Overlay</h1>
+            <p class="lead">A jQuery plugin for displaying a full-screen overlay over blurred body content</p>
+            <p class="lead"><button type="button" id="showOverlayButton" class="btn btn-primary btn-lg">See it in action!</button></p>
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-12">
-          <h2>Installation</h2>
-        </div>
-        <!-- <div class="col-sm-6">
-          <p>Grab it from a package manager:
-          <ul>
-            <li><strong>npm:</strong> <code>npm install --save blur-overlay</code></li>
-            <li><strong>Bower:</strong> <code>bower install --save blur-overlay</code></li>
-          </ul>
-        </div> -->
-        <div class="col-sm-12">
-          <p>For now, just grab the source:</p>
-          <ul>
-            <li><a href="https://raw.githubusercontent.com/bencentra/blur-overlay/master/dist/blur-overlay.js">Development</a> (unminified, ~5kb)</li>
-            <li><a href="https://raw.githubusercontent.com/bencentra/blur-overlay/master/dist/blur-overlay.min.js">Production</a> (minified, ~3kb)</li>
-          </ul>
-        </div>
-        <div class="col-sm-12">
-          <p>Relies on jQuery (<code>&gt;=2.2.4</code>) and jQuery UI (<code>&gt;=1.12.0</code>).</p>
-        </div>
-        <div class="col-sm-12">
-          <br>
-          <h2>Example</h2>
-          <pre class="mask-me"><code class="javascript">
-  $(document).on('ready', function () {
+        <div class="row">
+          <div class="col-sm-12">
+            <h2>Installation</h2>
+          </div>
+          <!-- <div class="col-sm-6">
+            <p>Grab it from a package manager:
+            <ul>
+              <li><strong>npm:</strong> <code>npm install --save blur-overlay</code></li>
+              <li><strong>Bower:</strong> <code>bower install --save blur-overlay</code></li>
+            </ul>
+          </div> -->
+          <div class="col-sm-12">
+            <p>For now, just grab the source:</p>
+            <ul>
+              <li><a href="https://raw.githubusercontent.com/bencentra/blur-overlay/master/dist/blur-overlay.js">Development</a> (unminified, ~5kb)</li>
+              <li><a href="https://raw.githubusercontent.com/bencentra/blur-overlay/master/dist/blur-overlay.min.js">Production</a> (minified, ~3kb)</li>
+            </ul>
+          </div>
+          <div class="col-sm-12">
+            <p>Relies on jQuery (<code>&gt;=2.2.4</code>) and jQuery UI (<code>&gt;=1.12.0</code>).</p>
+          </div>
+          <div class="col-sm-12">
+            <br>
+            <h2>Example</h2>
+            <pre class="mask-me"><code class="javascript">
+    $(document).on('ready', function () {
 
-    // Grab the element you want to "wrap" with blur
-    var $target = $('#something');
+      // Grab the element you want to "wrap" with blur
+      var $target = $('#something');
 
-    // Grab the content you want to display in the overlay
-    var $overlay = $('#overlay').detach().show();
+      // Grab the content you want to display in the overlay
+      var $overlay = $('#overlay').detach().show();
 
-    // Initialize the overlay
-    $target.blurOverlay({
-      // Overlay content
-      content: $overlay,
-      // Background color of the overlay (use rgba for opacity)
-      backgroundColor: 'rgba(255, 255, 255, .25)',
-      // Blur amount (default 12px)
-      blurAmount: '10px',
-      // Duration of CSS transitions
-      transitionDuration: '500ms',
-      // Type of CSS transitions
-      transitionType: 'cubic-bezier(.22, .57, .27, .92)',
-      // Elements to "mask" (adds an extra overlay to improve visual contrast)
-      masks: [{
-        selector: '.mask-me', // Required
-        color: 'rgba(255, 255, 255, 0.5)',
-        opacity: 1,
-        width: '400px',
-        height: '300px'
-      }]
+      // Initialize the overlay
+      $target.blurOverlay({
+        // Overlay content
+        content: $overlay,
+        // Background color of the overlay (use rgba for opacity)
+        backgroundColor: 'rgba(255, 255, 255, .25)',
+        // Blur amount (default 12px)
+        blurAmount: '10px',
+        // Duration of CSS transitions
+        transitionDuration: '500ms',
+        // Type of CSS transitions
+        transitionType: 'cubic-bezier(.22, .57, .27, .92)',
+        // Elements to "mask" (adds an extra overlay to improve visual contrast)
+        masks: [{
+          selector: '.mask-me', // Required
+          color: 'rgba(255, 255, 255, 0.5)',
+          opacity: 1,
+          width: '400px',
+          height: '300px'
+        }]
+      });
+
+      // Show the overlay
+      $target.blurOverlay('show').then(function () {
+        console.log('overlay is showing');
+      });
+
+      // Hide the overlay
+      $target.blurOverlay('hide').then(function () {
+        console.log('overlay is hidden');
+      });
+
+      // Update the content of the overlay
+      $target.blurOverlay('content', '&lt;p&gt;New Content&lt;/p&gt;');
+
+      // Determine if the overlay is showing (true or false)
+      console.log('Overlay is showing: ' + $target.blurOverlay('isShowing'));
+
+      // Listen for events on the overlay
+      $target.on('blurOverlay.beforeShow', function () {
+        console.log('beforeShow event');
+      });
+      $target.on('blurOverlay.show', function () {
+        console.log('show event');
+      });
+      $target.on('blurOverlay.beforeHide', function () {
+        console.log('beforeHide event');
+      });
+      $target.on('blurOverlay.hide', function () {
+        console.log('hide event');
+      });
+
+      // Destroy the plugin instance and clean up the DOM
+      $target.blurOverlay('destroy');
+
     });
-
-    // Show the overlay
-    $target.blurOverlay('show').then(function () {
-      console.log('overlay is showing');
-    });
-
-    // Hide the overlay
-    $target.blurOverlay('hide').then(function () {
-      console.log('overlay is hidden');
-    });
-
-    // Update the content of the overlay
-    $target.blurOverlay('content', '&lt;p&gt;New Content&lt;/p&gt;');
-
-    // Determine if the overlay is showing (true or false)
-    console.log('Overlay is showing: ' + $target.blurOverlay('isShowing'));
-
-    // Listen for events on the overlay
-    $target.on('blurOverlay.beforeShow', function () {
-      console.log('beforeShow event');
-    });
-    $target.on('blurOverlay.show', function () {
-      console.log('show event');
-    });
-    $target.on('blurOverlay.beforeHide', function () {
-      console.log('beforeHide event');
-    });
-    $target.on('blurOverlay.hide', function () {
-      console.log('hide event');
-    });
-
-    // Destroy the plugin instance and clean up the DOM
-    $target.blurOverlay('destroy');
-
-  });
-          </code></pre>
+            </code></pre>
+          </div>
         </div>
       </div>
     </div>
@@ -164,7 +173,7 @@
         $content = $('#content');
         $content.blurOverlay({
           content: $overlay,
-          backgroundColor: 'rgba(255, 255, 255, .25)',
+          backgroundColor: 'rgba(255, 255, 255, 0.33)',
           masks: [{
             selector: '.mask-me'
           }]
