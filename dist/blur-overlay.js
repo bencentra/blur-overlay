@@ -23,11 +23,13 @@
       blurAmount: '12px',
       // Default content to display
       content: '<h1>Hello, blur overlay!</h1>',
-      // Array of "mask" objects, resembling
+      // Array of "mask" objects, with possible options:
       // {
-      //   selector: '.mask-me',
+      //   selector: '.mask-me', // Required
       //   color: 'rgba(255, 255, 255, 0.5)',
-      //   opacity: 1
+      //   opacity: 1,
+      //   width: '300px',
+      //   height: '200px'
       // }
       masks: [],
       // Duration of CSS transitions
@@ -161,8 +163,8 @@
         var contentOffset = $contentToMask.offset();
         var $mask = $('<div>').attr('class', 'blur-overlay-mask');
         $mask.css({
-          width: $contentToMask.width(),
-          height: $contentToMask.height(),
+          width: config.width || $contentToMask.width(),
+          height: config.height || $contentToMask.height(),
           position: 'fixed',
           top: contentOffset.top,
           left: contentOffset.left,

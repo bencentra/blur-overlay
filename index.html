@@ -81,9 +81,11 @@
       transitionType: 'cubic-bezier(.22, .57, .27, .92)',
       // Elements to "mask" (adds an extra overlay to improve visual contrast)
       masks: [{
-        selector: '.mask-me',
+        selector: '.mask-me', // Required
         color: 'rgba(255, 255, 255, 0.5)',
-        opacity: 1
+        opacity: 1,
+        width: '400px',
+        height: '300px'
       }]
     });
 
