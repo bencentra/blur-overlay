@@ -1,5 +1,7 @@
 # blur-overlay
 
+[![npm version](https://badge.fury.io/js/blur-overlay.svg)](https://badge.fury.io/js/blur-overlay) [![Bower version](https://badge.fury.io/bo/blur-overlay.svg)](https://badge.fury.io/bo/blur-overlay)
+
 ![Example of the blur overlay](http://i.giphy.com/cLyoZ6vi41k4.gif)
 
 jQuery plugin for creating blurry overlays. Can customize the content, blur amount, and transition types.
@@ -15,8 +17,8 @@ You can install blur-overlay from a package manager:
 * __bower__: `bower install --save blur-overlay`
 
 Or you can grab the latest `.js` file:
-* [Development](https://raw.githubusercontent.com/bencentra/blur-overlay/master/dist/blur-overlay.js) (unminified, ~5kb)
-* [Production](https://raw.githubusercontent.com/bencentra/blur-overlay/master/dist/blur-overlay.js) (minified, ~3kb)
+* [Development](https://raw.githubusercontent.com/bencentra/blur-overlay/master/dist/blur-overlay.js) (unminified, ~7kb)
+* [Production](https://raw.githubusercontent.com/bencentra/blur-overlay/master/dist/blur-overlay.js) (minified, ~4kb)
 
 ## Usage
 
