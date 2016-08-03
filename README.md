@@ -86,7 +86,7 @@ $(document).on('ready', function () {
 First and foremost, fork/clone the repo and run:
 ```bash
 cd blur-overlay
-# Use the recommended node version
+# Use the recommended node version (6.x)
 nvm use
 # Install dependencies
 npm install

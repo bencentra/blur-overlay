@@ -5,16 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>jQuery Blur Overlay</title>
-    <link rel="stylesheet" href="vendor/bootstrap-4.0.0-alpha.3.min.css">
-    <link rel="stylesheet" href="vendor/highlight-9.5.0-zenburn.min.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/highlight/src/styles/zenburn.css">
     <style>
       body {
-        width: 100%;
-        height: 100%;
-      }
-      #content {
-        padding: 20px 10px;
-        background-image: url('img/pattern.png');
         width: 100%;
         height: 100%;
       }
@@ -27,34 +21,41 @@
       pre, code {
         text-align: left;
       }
+      #content {
+        padding: 20px 10px;
+        background-image: url('img/pattern.png');
+        width: 100%;
+        height: 100%;
+      }
       #overlay {
         padding: 60px 10px;
+      }
+      .jumbotron {
+        box-shadow: 0 0 6px 2px #aaa;
       }
     </style>
   </head>
   <body>
     <div id="content">
       <div class="container">
-        <div class="jumbotron jumbotron-fluid center">
-          <div class="container">
-            <h1 class="display-3">Blur Overlay</h1>
-            <p class="lead">A jQuery plugin for displaying a full-screen overlay over blurred body content</p>
-            <p class="lead"><button type="button" id="showOverlayButton" class="btn btn-primary btn-lg">See it in action!</button></p>
-          </div>
+        <div class="jumbotron center">
+          <h1 class="display-3">Blur Overlay</h1>
+          <p class="lead">A jQuery plugin for displaying a full-screen overlay over blurred body content</p>
+          <p class="lead"><button type="button" id="showOverlayButton" class="btn btn-primary btn-lg">See it in action!</button></p>
         </div>
         <div class="row">
           <div class="col-sm-12">
             <h2>Installation</h2>
           </div>
-          <!-- <div class="col-sm-6">
+          <div class="col-sm-6">
             <p>Grab it from a package manager:
             <ul>
               <li><strong>npm:</strong> <code>npm install --save blur-overlay</code></li>
               <li><strong>Bower:</strong> <code>bower install --save blur-overlay</code></li>
             </ul>
-          </div> -->
-          <div class="col-sm-12">
-            <p>For now, just grab the source:</p>
+          </div>
+          <div class="col-sm-6">
+            <p>Or grab the source:</p>
             <ul>
               <li><a href="https://raw.githubusercontent.com/bencentra/blur-overlay/master/dist/blur-overlay.js">Development</a> (unminified, ~5kb)</li>
               <li><a href="https://raw.githubusercontent.com/bencentra/blur-overlay/master/dist/blur-overlay.min.js">Production</a> (minified, ~3kb)</li>
@@ -148,10 +149,10 @@
         </div>
       </div>
     </div>
-    <script src="vendor/jquery-2.2.4.min.js"></script>
-    <script src="vendor/jquery-ui-1.12.0.min.js"></script>
-    <!-- <script src="vendor/bootstrap-4.0.0-alpha.3.min.js"></script> -->
-    <script src="vendor/highlight-9.5.0.min.js"></script>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/jquery-ui/jquery-ui.min.js"></script>
+    <!-- <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script> -->
+    <script src="bower_components/highlight/src/highlight.js"></script>
     <script src="dist/blur-overlay.js"></script>
     <script>
 

@@ -1,0 +1,31 @@
+{
+  "name": "blur-overlay",
+  "description": "A jQuery plugin for displaying an overlay on a webpage that blurs the content behind it",
+  "main": "src/blur-overlay.js",
+  "authors": [
+    "Ben Centra <blcentra@gmail.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "jquery",
+    "blur",
+    "overlay"
+  ],
+  "homepage": "https://github.com/bencentra/blur-overlay",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "circle.yml",
+    "coverage",
+    "img",
+    "spec",
+    "src"
+  ],
+  "devDependencies": {
+    "bootstrap": "4.0.0-alpha.3",
+    "jquery": "2.2.4",
+    "jquery-ui": "1.12.0",
+    "highlight": "9.5.0"
+  }
+}

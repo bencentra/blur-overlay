@@ -6,6 +6,9 @@
   "engines": {
     "node": ">=6.0.0"
   },
+  "files": [
+    "dist/"
+  ],
   "scripts": {
     "build:babel": "babel src/ -d dist/",
     "build:uglify": "uglifyjs dist/blur-overlay.js -o dist/blur-overlay.min.js -c -m",
