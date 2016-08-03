@@ -10,7 +10,11 @@ Requires jQuery (`>=2.2.4`) and jQuery UI (`>=1.12.0`).
 
 ## Installation
 
-For now, just grab the latest file:
+You can install blur-overlay from a package manager:
+* __npm__: `npm install --save blur-overlay`
+* __bower__: `bower install --save blur-overlay`
+
+Or you can grab the latest `.js` file:
 * [Development](https://raw.githubusercontent.com/bencentra/blur-overlay/master/dist/blur-overlay.js) (unminified, ~5kb)
 * [Production](https://raw.githubusercontent.com/bencentra/blur-overlay/master/dist/blur-overlay.js) (minified, ~3kb)
 

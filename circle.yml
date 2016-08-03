@@ -4,6 +4,8 @@ machine:
 
 test:
   override:
+    - npm install -g bower
+    - bower install
     - npm run lint
     - npm test
     - npm run build
