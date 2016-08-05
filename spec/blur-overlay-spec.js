@@ -1,11 +1,11 @@
 const targetFixture = `<div id="target">
-                           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                           <p>Lorem ipsum dolor sit amet and the rest.</p>
                            <button type="button" id="openButton">Open Me</button>
                            <div class="mask-me" style="background-color:blue;width:300px;height:300px;"></div>
                          </div>`;
 const overlayFixture = `<div id="overlay">
                           <h1>This is a pretty blurry overlay, I bet!</h1>
-                          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                          <p>Lorem ipsum dolor sit amet and the rest.</p>
                           <button type="button" id="closeButton">Close Me</button>
                         </div>`;
 
@@ -44,6 +44,11 @@ describe('Blur Overlay plugin', () => {
         content: jasmine.any(String),
         autoShow: false,
         blurAmount: '12px',
+        masks: [],
+        noFilter: false,
+        transitionDuration: '333ms',
+        transitionType: 'ease-in-out',
+        zIndex: 1000,
       }));
     });
 
@@ -105,6 +110,42 @@ describe('Blur Overlay plugin', () => {
       data = $target.data('custom-blurOverlay');
       expect(data.options.masks).toEqual(masks);
     });
+
+    it('initializes the plugin without the blur filter', () => {
+      const noFilter = true;
+      $target.blurOverlay({
+        noFilter,
+      });
+      data = $target.data('custom-blurOverlay');
+      expect(data.options.noFilter).toEqual(noFilter);
+    });
+
+    it('initializes the plugin without the blur filter (as a function)', () => {
+      const noFilter = () => true;
+      $target.blurOverlay({
+        noFilter,
+      });
+      data = $target.data('custom-blurOverlay');
+      expect(data.options.noFilter).toEqual(noFilter);
+    });
+
+    it('initializes the plugin with a custom z-index', () => {
+      const zIndex = 3333;
+      $target.blurOverlay({
+        zIndex,
+      });
+      data = $target.data('custom-blurOverlay');
+      expect(data.options.zIndex).toEqual(zIndex);
+    });
+
+    it('appends the appropriate elements to the DOM', () => {
+      $target.blurOverlay({
+        content: $overlay,
+      });
+      expect($('.blur-overlay-wrapper').length).toBe(0);
+      expect($('.blur-overlay-overlay').length).toBe(1);
+      expect($('.blur-overlay-content').length).toBe(1);
+    });
   });
 
   describe('public methods', () => {
@@ -121,6 +162,20 @@ describe('Blur Overlay plugin', () => {
           done();
         });
       });
+
+      it('does not try to show again if already showing', done => {
+        data = $target.data('custom-blurOverlay');
+        spyOn(data, '_beforeShow').and.callThrough();
+        $target.blurOverlay('show').then(result => {
+          expect(data._beforeShow.calls.count()).toBe(1);
+          expect(result).toBe(true);
+          $target.blurOverlay('show').then(result2 => {
+            expect(data._beforeShow.calls.count()).toBe(1);
+            expect(result2).toBe(false);
+          });
+          done();
+        });
+      });
     });
 
     describe('hide()', () => {
@@ -128,6 +183,22 @@ describe('Blur Overlay plugin', () => {
         $target.blurOverlay('show').then(() => {
           $target.blurOverlay('hide').then(() => {
             expect($('.blur-overlay-overlay').css('opacity')).toBe('0');
+            done();
+          });
+        });
+      });
+
+      it('does not try to hide again if already hiding', done => {
+        data = $target.data('custom-blurOverlay');
+        spyOn(data, '_beforeHide').and.callThrough();
+        $target.blurOverlay('show').then(() => {
+          $target.blurOverlay('hide').then(result => {
+            expect(data._beforeHide.calls.count()).toBe(1);
+            expect(result).toBe(true);
+            $target.blurOverlay('hide').then(result2 => {
+              expect(data._beforeHide.calls.count()).toBe(1);
+              expect(result2).toBe(false);
+            });
             done();
           });
         });
@@ -154,6 +225,16 @@ describe('Blur Overlay plugin', () => {
         $target.blurOverlay('content', newContent);
         content = $('.blur-overlay-content').children().first();
         expect(content[0].outerHTML).toEqual(newContent);
+      });
+
+      it('changes the content of the overlay (function)', () => {
+        const expectedHtml = '<h1>LOL</h1>';
+        newContent = () => expectedHtml;
+        content = $('.blur-overlay-content').children().first();
+        expect(content.html()).toEqual($overlay.html());
+        $target.blurOverlay('content', newContent);
+        content = $('.blur-overlay-content').children().first();
+        expect(content[0].outerHTML).toEqual(expectedHtml);
       });
     });
 
@@ -196,7 +277,6 @@ describe('Blur Overlay plugin', () => {
       describe('show()', () => {
         it('displays the overlay and masks the specified content', done => {
           $target.blurOverlay('show').then(() => {
-            expect($('.blur-overlay-overlay').css('opacity')).toBe('1');
             expect($('.blur-overlay-mask').length).toBe(1);
             expect($('.mask-me').next().attr('class')).toBe('blur-overlay-mask');
             expect($('.blur-overlay-mask').css('opacity')).toEqual(masks[0].opacity);
@@ -210,7 +290,6 @@ describe('Blur Overlay plugin', () => {
         it('hides the overlay and removes the masks', done => {
           $target.blurOverlay('show').then(() => {
             $target.blurOverlay('hide').then(() => {
-              expect($('.blur-overlay-overlay').css('opacity')).toBe('0');
               expect($('.blur-overlay-mask').length).toBe(0);
               expect($('.mask-me').next().attr('class')).not.toBe('blur-overlay-mask');
               done();
@@ -220,7 +299,7 @@ describe('Blur Overlay plugin', () => {
       });
 
       describe('destroy()', () => {
-        it('destroys the plugin and cleans up the DOM', (done) => {
+        it('destroys the plugin and cleans up the DOM', done => {
           $target.blurOverlay('show').then(() => {
             expect($('.blur-overlay-mask').length).toBe(1);
             $target.blurOverlay('destroy');
@@ -228,6 +307,44 @@ describe('Blur Overlay plugin', () => {
             expect($('.blur-overlay-wrapper').length).toBe(0);
             expect($('.blur-overlay-overlay').length).toBe(0);
             expect($('.blur-overlay-mask').length).toBe(0);
+            done();
+          });
+        });
+      });
+    });
+  });
+
+  describe('with no filter', () => {
+    describe('public methods', () => {
+      beforeEach(() => {
+        $target.blurOverlay({
+          content: $overlay,
+          noFilter: true,
+        });
+      });
+
+      describe('show()', () => {
+        it('displays the overlay but does not create a wrapper', done => {
+          $target.blurOverlay('show').then(() => {
+            expect($('.blur-overlay-wrapper').length).toBe(0);
+            done();
+          });
+        });
+      });
+    });
+
+    describe('(as a function)', () => {
+      beforeEach(() => {
+        $target.blurOverlay({
+          content: $overlay,
+          noFilter: () => true,
+        });
+      });
+
+      describe('show()', () => {
+        it('displays the overlay but does not create a wrapper', done => {
+          $target.blurOverlay('show').then(() => {
+            expect($('.blur-overlay-wrapper').length).toBe(0);
             done();
           });
         });

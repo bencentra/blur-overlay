@@ -42,8 +42,8 @@
       <nav class="navbar navbar-fixed-top navbar-dark bg-inverse">
         <a class="navbar-brand" href="#">Blur Overlay</a>
         <div class="nav navbar-nav">
-          <a class="nav-item nav-link" href="#">Installation</a>
-          <a class="nav-item nav-link" href="#">Example</a>
+          <a class="nav-item nav-link" href="#installation">Installation</a>
+          <a class="nav-item nav-link" href="#example">Example</a>
         </div>
       </nav>
       <div class="container">
@@ -66,7 +66,7 @@
           <div class="col-sm-6">
             <p>Or grab the source:</p>
             <ul>
-              <li><a href="https://raw.githubusercontent.com/bencentra/blur-overlay/master/dist/blur-overlay.js">Development</a> (unminified, ~7kb)</li>
+              <li><a href="https://raw.githubusercontent.com/bencentra/blur-overlay/master/dist/blur-overlay.js">Development</a> (unminified, ~8kb)</li>
               <li><a href="https://raw.githubusercontent.com/bencentra/blur-overlay/master/dist/blur-overlay.min.js">Production</a> (minified, ~4kb)</li>
             </ul>
           </div>
@@ -104,7 +104,13 @@
           opacity: 1,
           width: '400px',
           height: '300px'
-        }]
+        }],
+        // Override the z-index used for the overlay and masks
+        zIndex: 3333,
+        // Disable the blur filter (for incompatible/buggy browsers or whatever reason)
+        noFilter: function () {
+          return browserIsEdge ? true : false;
+        }
       });
 
       // Show the overlay
@@ -183,11 +189,15 @@
         $content = $('#content');
         $content.blurOverlay({
           content: $overlay,
-          backgroundColor: 'rgba(255, 255, 255, 0.33)',
+          backgroundColor: 'rgba(255, 255, 255, 0.5)',
           masks: [{
             selector: '.mask-me'
           }],
-          transitionDuration: '500ms'
+          transitionDuration: '500ms',
+          // Because Bootstrap uses 1030 for the navbar
+          zIndex: 2000,
+          // Because Edge has bugs with filter and absolutely positioned elements
+          noFilter: /Edge\/\d+/.test(navigator.userAgent)
         });
         $showButton = $('#showOverlayButton');
         $showButton.on('click', function () {

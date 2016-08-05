@@ -1,6 +1,4 @@
-# blur-overlay
-
-[![npm version](https://badge.fury.io/js/blur-overlay.svg)](https://badge.fury.io/js/blur-overlay) [![Bower version](https://badge.fury.io/bo/blur-overlay.svg)](https://badge.fury.io/bo/blur-overlay)
+# blur-overlay [![npm version](https://badge.fury.io/js/blur-overlay.svg)](https://badge.fury.io/js/blur-overlay) [![Bower version](https://badge.fury.io/bo/blur-overlay.svg)](https://badge.fury.io/bo/blur-overlay)
 
 ![Example of the blur overlay](http://i.giphy.com/cLyoZ6vi41k4.gif)
 
@@ -17,7 +15,7 @@ You can install blur-overlay from a package manager:
 * __bower__: `bower install --save blur-overlay`
 
 Or you can grab the latest `.js` file:
-* [Development](https://raw.githubusercontent.com/bencentra/blur-overlay/master/dist/blur-overlay.js) (unminified, ~7kb)
+* [Development](https://raw.githubusercontent.com/bencentra/blur-overlay/master/dist/blur-overlay.js) (unminified, ~8kb)
 * [Production](https://raw.githubusercontent.com/bencentra/blur-overlay/master/dist/blur-overlay.js) (minified, ~4kb)
 
 ## Usage
@@ -49,7 +47,13 @@ $(document).on('ready', function () {
       opacity: 1,
       width: '400px',
       height: '300px'
-    }]
+    }],
+    // Override the z-index used for the overlay and masks
+    zIndex: 3333,
+    // Disable the blur filter (for incompatible/buggy browsers or whatever reason)
+    noFilter: function () {
+      return browserIsEdge ? true : false;
+    }
   });
 
   // Show the overlay

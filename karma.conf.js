@@ -85,7 +85,7 @@ module.exports = function(config) {
 
   // Only include the 'coverage' reporter/preprocessor in singleRun mode
   // (allows for breakpoints when debugging in the browser)
-  if (config.singleRun === true) {
+  if (process.argv.indexOf('--single-run') > -1) {
     config.set({
       preprocessors: {
         'src/**/*.js': ['babel', 'coverage'],

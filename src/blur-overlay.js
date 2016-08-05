@@ -6,6 +6,10 @@
     opacity: 1,
   };
 
+  const isFunc = fn => typeof fn === 'function';
+
+  const returnOrCall = val => isFunc(val) ? val() : val;
+
   // For more on $.widget(), see: https://api.jqueryui.com/jquery.widget/
   $.widget('custom.blurOverlay', {
 
@@ -30,10 +34,16 @@
       //   height: '200px'
       // }
       masks: [],
+      // Some browsers have quirks related to blur and other filters,
+      // especially when dealing with absolute/fixed position elements.
+      // Set this flag to true to disable the blur filter entirely.
+      noFilter: false,
       // Duration of CSS transitions
       transitionDuration: '333ms',
       // Type of CSS transitions
       transitionType: 'ease-in-out',
+      // Override z-index for overlay
+      zIndex: 1000,
     },
 
     /*
@@ -45,6 +55,7 @@
       this.hideDeferred = null;
       this.transition = `${this.options.transitionDuration} ${this.options.transitionType}`;
       this.masks = [];
+      this.noFilter = returnOrCall(this.options.noFilter);
       this._initWrapper();
       this._initContent();
       this._initOverlay();
@@ -71,6 +82,8 @@
       this.showDeferred = $.Deferred();
       if (!this.showing) {
         this._beforeShow();
+      } else {
+        this.showDeferred.resolve(false);
       }
       this.showing = true;
       return this.showDeferred.promise();
@@ -83,6 +96,8 @@
       this.hideDeferred = $.Deferred();
       if (this.showing) {
         this._beforeHide();
+      } else {
+        this.hideDeferred.resolve(false);
       }
       this.showing = false;
       return this.hideDeferred.promise();
@@ -92,8 +107,7 @@
     * Update the contents of the overlay
     */
     content(newContent) {
-      const isFunction = typeof newContent === 'function';
-      this.options.content = isFunction ? newContent() : newContent;
+      this.options.content = returnOrCall(newContent);
       this.$content.html(this.options.content);
     },
 
@@ -109,6 +123,7 @@
     */
 
     _initWrapper() {
+      if (this.options.noFilter) return;
       this.$wrapper = $('<div>').attr('class', 'blur-overlay-wrapper');
       this.$wrapper.css({
         '-webkit-filter': 'blur(0px)',
@@ -127,7 +142,7 @@
     _initOverlay() {
       this.$overlay = $('<div>').attr('class', 'blur-overlay-overlay');
       this.$overlay.css({
-        'z-index': 1000,
+        'z-index': this.options.zIndex,
         'background-color': this.options.backgroundColor,
         opacity: 0,
         '-webkit-transition': `opacity ${this.transition}`,
@@ -148,12 +163,47 @@
     },
 
     _applyWrapper() {
+      if (this.options.noFilter) return;
       this.element.wrapAll(this.$wrapper);
       this.$wrapper = this.element.closest('.blur-overlay-wrapper').first();
     },
 
+    _blurWrapper() {
+      if (this.options.noFilter) return;
+      this.$wrapper.css({
+        '-webkit-filter': `blur(${this.options.blurAmount})`,
+        filter: `blur(${this.options.blurAmount})`,
+      });
+    },
+
+    _unblurWrapper() {
+      if (this.options.noFilter) return;
+      this.$wrapper.css({
+        '-webkit-filter': 'blur(0px)',
+        filter: 'blur(0px)',
+      });
+    },
+
     _removeWrapper() {
+      if (this.options.noFilter) return;
       this.element.unwrap('.blur-overlay-wrapper');
+    },
+
+    _showOverlay() {
+      this.$overlay.css({
+        position: 'fixed',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        opacity: 1,
+      });
+    },
+
+    _hideOverlay() {
+      this.$overlay.css({
+        opacity: 0,
+      });
     },
 
     _addMasks() {
@@ -170,7 +220,7 @@
           left: contentOffset.left - window.pageXOffset,
           opacity: 0,
           transition: `opacity ${this.transition}`,
-          'z-index': 1000,
+          'z-index': this.options.zIndex,
           'background-color': config.color || MASK_DEFAULTS.color,
         });
         $contentToMask.after($mask);
@@ -210,18 +260,8 @@
       this._applyWrapper();
       this._addMasks();
       setTimeout(() => {
-        this.$wrapper.css({
-          '-webkit-filter': `blur(${this.options.blurAmount})`,
-          filter: `blur(${this.options.blurAmount})`,
-        });
-        this.$overlay.css({
-          position: 'fixed',
-          top: 0,
-          bottom: 0,
-          left: 0,
-          right: 0,
-          opacity: 1,
-        });
+        this._blurWrapper();
+        this._showOverlay();
         this._showMasks();
         this.$content.show();
       }, 0);
@@ -236,13 +276,8 @@
       this.element.trigger($.Event('blurOverlay.beforeHide'));
       $('body').css('overflow', 'auto');
       setTimeout(() => {
-        this.$wrapper.css({
-          '-webkit-filter': 'blur(0px)',
-          filter: 'blur(0px)',
-        });
-        this.$overlay.css({
-          opacity: 0,
-        });
+        this._unblurWrapper();
+        this._hideOverlay();
         this._hideMasks();
       }, 0);
     },
