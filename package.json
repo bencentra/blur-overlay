@@ -1,6 +1,6 @@
 {
   "name": "blur-overlay",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A jQuery plugin for displaying an overlay on a webpage that blurs the content behind it ",
   "main": "dist/blur-overlay.js",
   "engines": {
