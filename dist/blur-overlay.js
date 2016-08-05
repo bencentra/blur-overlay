@@ -61,7 +61,8 @@
     * Destroy the plugin instance and clean up the DOM
     */
     _destroy: function _destroy() {
-      this.element.unwrap();
+      this._removeWrapper();
+      this._removeMasks();
       this.$overlay.remove();
       $('body').css('overflow', 'auto');
     },
@@ -123,8 +124,6 @@
         '-webkit-transition': '-webkit-filter ' + this.transition + ', filter ' + this.transition,
         transition: '-webkit-filter ' + this.transition + ', filter ' + this.transition
       });
-      this.element.wrapAll(this.$wrapper);
-      this.$wrapper = this.element.closest('.blur-overlay-wrapper').first();
     },
     _initContent: function _initContent() {
       this.$content = $('<div>').attr('class', 'blur-overlay-content');
@@ -153,6 +152,13 @@
           _this._afterShow();
         }
       });
+    },
+    _applyWrapper: function _applyWrapper() {
+      this.element.wrapAll(this.$wrapper);
+      this.$wrapper = this.element.closest('.blur-overlay-wrapper').first();
+    },
+    _removeWrapper: function _removeWrapper() {
+      this.element.unwrap('.blur-overlay-wrapper');
     },
     _addMasks: function _addMasks() {
       var _this2 = this;
@@ -205,6 +211,7 @@
 
       this.element.trigger($.Event('blurOverlay.beforeShow'));
       $('body').css('overflow', 'hidden');
+      this._applyWrapper();
       this._addMasks();
       setTimeout(function () {
         _this3.$wrapper.css({
@@ -246,6 +253,7 @@
     _afterHide: function _afterHide() {
       this.$overlay.css('position', 'relative');
       this.$content.hide();
+      this._removeWrapper();
       this._removeMasks();
       this.element.trigger($.Event('blurOverlay.hide'));
       this.hideDeferred.resolve(true);

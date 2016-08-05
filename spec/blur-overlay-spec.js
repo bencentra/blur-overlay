@@ -218,6 +218,20 @@ describe('Blur Overlay plugin', () => {
           });
         });
       });
+
+      describe('destroy()', () => {
+        it('destroys the plugin and cleans up the DOM', (done) => {
+          $target.blurOverlay('show').then(() => {
+            expect($('.blur-overlay-mask').length).toBe(1);
+            $target.blurOverlay('destroy');
+            expect($target.data('custom-blurOverlay')).not.toBeDefined();
+            expect($('.blur-overlay-wrapper').length).toBe(0);
+            expect($('.blur-overlay-overlay').length).toBe(0);
+            expect($('.blur-overlay-mask').length).toBe(0);
+            done();
+          });
+        });
+      });
     });
   });
 
