@@ -22,6 +22,10 @@ Or you can grab the latest `.js` file:
 
 ```js
 $(document).on('ready', function () {
+
+  // Because Edge + CSS filters cause position bugs
+  var browserIsEdge = /Edge\/\d+/.test(navigator.userAgent);
+
   // Grab the element you want to "wrap" with blur
   var $target = $('#something');
 
@@ -51,9 +55,7 @@ $(document).on('ready', function () {
     // Override the z-index used for the overlay and masks
     zIndex: 3333,
     // Disable the blur filter (for incompatible/buggy browsers or whatever reason)
-    noFilter: function () {
-      return browserIsEdge ? true : false;
-    }
+    noFilter: browserIsEdge
   });
 
   // Show the overlay
@@ -88,6 +90,7 @@ $(document).on('ready', function () {
 
   // Destroy the plugin instance and clean up the DOM
   $target.blurOverlay('destroy');
+
 });
 ```
 
