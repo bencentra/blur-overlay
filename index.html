@@ -29,11 +29,11 @@
         padding: 60px 10px;
       }
       .navbar {
-        box-shadow: 0 1px 2px #aaa;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
       }
       .jumbotron {
         margin-top: 6px;
-        box-shadow: 0 0 6px 2px #aaa;
+        box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.25);
       }
     </style>
   </head>
@@ -175,7 +175,10 @@
 
       $(document).on('ready', function() {
 
-        var $content, $overlay, $showButton, $hideButton;
+        var $content, $overlay, $showButton, $hideButton, isEdge, opacity;
+
+        isEdge = /Edge\/\d+/.test(navigator.userAgent);
+        opacity = isEdge ? '0.75' : '0.5';
 
         // Grab overlay content from the DOM and initialize the overlay
         $overlay = $('#overlay').detach().show();
@@ -189,7 +192,7 @@
         $content = $('#content');
         $content.blurOverlay({
           content: $overlay,
-          backgroundColor: 'rgba(255, 255, 255, 0.5)',
+          backgroundColor: 'rgba(255, 255, 255, ' + opacity + ')',
           masks: [{
             selector: '.mask-me'
           }],
@@ -197,7 +200,7 @@
           // Because Bootstrap uses 1030 for the navbar
           zIndex: 2000,
           // Because Edge has bugs with filter and absolutely positioned elements
-          noFilter: /Edge\/\d+/.test(navigator.userAgent)
+          noFilter: isEdge
         });
         $showButton = $('#showOverlayButton');
         $showButton.on('click', function () {
