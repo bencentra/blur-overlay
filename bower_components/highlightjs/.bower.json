@@ -19,7 +19,6 @@
     "commit": "2c7b489ff7a6bd6a95f47fdc9bdc03fb1fd0f788"
   },
   "_source": "https://github.com/components/highlightjs.git",
-  "_target": "^9.5.0",
-  "_originalSource": "highlightjs",
-  "_direct": true
+  "_target": "9.5.0",
+  "_originalSource": "highlightjs"
 }
