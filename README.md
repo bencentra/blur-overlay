@@ -23,8 +23,10 @@ Or you can grab the latest `.js` file:
 ```js
 $(document).on('ready', function () {
 
-  // Because Edge + CSS filters cause position bugs
+  // Browsers that don't (fully) support filters
   var browserIsEdge = /Edge\/\d+/.test(navigator.userAgent);
+  var browserIsIE = /Trident\/\d+/.test(navigator.userAgent);
+  var opacity = (browserIsEdge || browserIsIE) ? '0.75' : '0.5';
 
   // Grab the element you want to "wrap" with blur
   var $target = $('#something');
@@ -37,7 +39,7 @@ $(document).on('ready', function () {
     // Overlay content
     content: $overlay,
     // Background color of the overlay (use rgba for opacity)
-    backgroundColor: 'rgba(255, 255, 255, .25)',
+    backgroundColor: 'rgba(255, 255, 255, ' + opacity + ')',
     // Blur amount (default 12px)
     blurAmount: '10px',
     // Duration of CSS transitions
@@ -55,7 +57,7 @@ $(document).on('ready', function () {
     // Override the z-index used for the overlay and masks
     zIndex: 3333,
     // Disable the blur filter (for incompatible/buggy browsers or whatever reason)
-    noFilter: browserIsEdge
+    noFilter: browserIsEdge || browserIsIE
   });
 
   // Show the overlay
