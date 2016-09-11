@@ -11,7 +11,7 @@
       body {
         width: 100%;
         height: 100%;
-        padding-top: 54px;
+        /*padding-top: 54px;*/
       }
       .center {
         text-align: center;
@@ -28,26 +28,28 @@
       #overlay {
         padding: 60px 10px;
       }
-      .navbar {
+      /*.navbar {
         box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
-      }
+      }*/
       .jumbotron {
         margin-top: 6px;
+      }
+      .shadow {
         box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.25);
       }
     </style>
   </head>
   <body>
     <div id="content">
-      <nav class="navbar navbar-fixed-top navbar-dark bg-inverse">
+      <!-- <nav class="navbar navbar-fixed-top navbar-dark bg-inverse">
         <a class="navbar-brand" href="#">Blur Overlay</a>
         <div class="nav navbar-nav">
           <a class="nav-item nav-link" href="#installation">Installation</a>
           <a class="nav-item nav-link" href="#example">Example</a>
         </div>
-      </nav>
+      </nav> -->
       <div class="container">
-        <div class="jumbotron center">
+        <div class="jumbotron center shadow">
           <h1 class="display-3">Blur Overlay</h1>
           <p class="lead">A jQuery plugin for displaying a full-screen overlay over blurred body content</p>
           <p class="lead"><button type="button" id="showOverlayButton" class="btn btn-primary btn-lg">See it in action!</button></p>
@@ -75,6 +77,16 @@
           </div>
           <div class="col-sm-12">
             <br>
+            <h2>Browser Compatibility</h2>
+            <p>As of September 2016, there are some browser defects around CSS blur filters:</p>
+            <ul>
+              <li>Blur causes positioning issues with absolute and fixed position elements in <a href="http://stackoverflow.com/questions/37949942/firefox-position-bug-by-parent-with-filter">Firefox</a> and <a href="http://stackoverflow.com/questions/35727233/filter-blur-not-working-on-ms-edge">Edge</a></li>
+              <li>Internet Explorer does not support blur filters</li>
+            </ul>
+            <p>Consider the possible need for workarounds, or disabling the blur effect, for some browsers before using this plugin!</p>
+          </div>
+          <div class="col-sm-12">
+            <br>
             <h2>Example</h2>
             <pre class="mask-me"><code class="javascript">
     $(document).on('ready', function () {
@@ -82,7 +94,7 @@
       // Browsers that don't (fully) support filters
       var browserIsEdge = /Edge\/\d+/.test(navigator.userAgent);
       var browserIsIE = /Trident\/\d+/.test(navigator.userAgent);
-      var opacity = (browserIsEdge || browserIsIE) ? '0.75' : '0.5';
+      var opacity = (browserIsEdge || browserIsIE) ? '0.75' : '0.33';
 
       // Grab the element you want to "wrap" with blur
       var $target = $('#something');
@@ -153,6 +165,13 @@
             </code></pre>
           </div>
         </div>
+      <p class="center">
+        Made by <a href="http://bencentra.com">Ben Centra</a>. Check out the <a href="https://github.com/bencentra/blur-overlay">GitHub project</a>.
+      </p>
+      <p class="center">
+        <a class="github-button" href="https://github.com/bencentra/blur-overlay/fork" data-icon="octicon-repo-forked" data-style="mega" data-count-href="/bencentra/blur-overlay/network" data-count-api="/repos/bencentra/blur-overlay#forks_count" data-count-aria-label="# forks on GitHub" aria-label="Fork bencentra/blur-overlay on GitHub">Fork</a>
+        <a class="github-button" href="https://github.com/bencentra/blur-overlay" data-icon="octicon-star" data-style="mega" data-count-href="/bencentra/blur-overlay/stargazers" data-count-api="/repos/bencentra/blur-overlay#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star bencentra/blur-overlay on GitHub">Star</a>
+      </p>
       </div>
     </div>
     <div id="overlay" class="container center" style="display:none;">
@@ -182,7 +201,7 @@
 
         isEdge = /Edge\/\d+/.test(navigator.userAgent);
         isIE = /Trident\/\d+/.test(navigator.userAgent);
-        opacity = (isEdge || isIE) ? '0.75' : '0.5';
+        opacity = (isEdge || isIE) ? '0.75' : '0.33';
 
         // Grab overlay content from the DOM and initialize the overlay
         $overlay = $('#overlay').detach().show();
@@ -230,5 +249,6 @@
       });
 
     </script>
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
   </body>
 </html>

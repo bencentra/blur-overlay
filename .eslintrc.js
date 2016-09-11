@@ -1,4 +1,4 @@
-{
+module.exports = {
   "extends": "airbnb-base",
   "env": {
     "browser": true,
@@ -17,4 +17,4 @@
     "max-len": ["warn", 120],
     "no-confusing-arrow": "warn"
   }
-}
+};
