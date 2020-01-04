@@ -16,7 +16,7 @@ You can install blur-overlay from a package manager:
 
 Or you can grab the latest `.js` file:
 * [Development](https://raw.githubusercontent.com/bencentra/blur-overlay/master/dist/blur-overlay.js) (unminified, ~8kb)
-* [Production](https://raw.githubusercontent.com/bencentra/blur-overlay/master/dist/blur-overlay.js) (minified, ~4kb)
+* [Production](https://raw.githubusercontent.com/bencentra/blur-overlay/master/dist/blur-overlay.min.js) (minified, ~4kb)
 
 ## Usage
 
